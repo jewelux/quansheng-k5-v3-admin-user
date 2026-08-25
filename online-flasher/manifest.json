@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "firmware": {
+    "name": "Quansheng K5 V3 Admin/User SAM Test",
+    "version": "0.1.0-test",
+    "file": "Quansheng-K5V3-AdminUser-SAM-v0.1.0-test.bin",
+    "format": "raw-bin",
+    "mcu": "PY32F071",
+    "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
+    "build_preset": "AdminUser-SAM-Test",
+    "tx_prevention": false,
+    "status": "experimental"
+  },
+  "upstream": {
+    "repository": "https://github.com/jewelux/quansheng-K5-talking-ardf-rx",
+    "commit": "d555b2fabac6fb4abcde33a840eff12d036784cf"
+  },
+  "flasher": "https://armel.github.io/uvtools2/"
+}

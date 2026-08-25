@@ -1,0 +1,37 @@
+name: Build firmware
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ARM toolchain and build tools
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi
+
+      - name: Configure Admin/User test build
+        working-directory: firmware-v3
+        run: cmake --preset AdminUser-SAM-Test
+
+      - name: Build Admin/User test firmware
+        working-directory: firmware-v3
+        run: cmake --build --preset AdminUser-SAM-Test
+
+      - name: Configure future RX-only build
+        working-directory: firmware-v3
+        run: cmake --preset AdminUser-SAM-RXOnly
+
+      - name: Build future RX-only firmware
+        working-directory: firmware-v3
+        run: cmake --build --preset AdminUser-SAM-RXOnly
+
+      - name: Upload test build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Quansheng-K5V3-AdminUser-SAM-test
+          path: firmware-v3/build/AdminUser-SAM-Test/quansheng.AdminUser_SAM_Test_K5v3_K1.bin
+          if-no-files-found: error

@@ -1,0 +1,9 @@
+firmware-v3/build/
+firmware-v3/archive/
+*.elf
+*.hex
+*.map
+*.tar
+
+# The reviewed release .bin in online-flasher is intentionally tracked.
+!online-flasher/*.bin

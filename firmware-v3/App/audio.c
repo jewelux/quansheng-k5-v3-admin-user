@@ -1,0 +1,760 @@
+/* Copyright 2025 muzkr https://github.com/muzkr
+ * Copyright 2023 Dual Tachyon
+ * https://github.com/DualTachyon
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ */
+
+#ifdef ENABLE_FMRADIO
+    #include "app/fm.h"
+#endif
+#include "audio.h"
+#ifdef ENABLE_FMRADIO
+    #include "driver/bk1080.h"
+#endif
+#include "driver/bk4819.h"
+#include "driver/gpio.h"
+#include "driver/system.h"
+#include "driver/systick.h"
+#include "driver/voice.h"
+#include "driver/py25q16.h"
+#include "driver/st7565.h"
+#include "functions.h"
+#include "misc.h"
+#include "settings.h"
+#include "ui/ui.h"
+
+#ifdef ENABLE_ARDF
+#include "app/ardf.h"
+#endif
+
+#ifdef ENABLE_SAM_TTS
+#include "driver/sam/sam.h"
+#include "driver/keyboard.h"
+#endif
+
+
+BEEP_Type_t gBeepToPlay = BEEP_NONE;
+
+void AUDIO_PlayBeep(BEEP_Type_t Beep)
+{
+
+    if (Beep != BEEP_880HZ_60MS_DOUBLE_BEEP &&
+        Beep != BEEP_500HZ_60MS_DOUBLE_BEEP &&
+        Beep != BEEP_440HZ_500MS &&
+#ifdef ENABLE_DTMF_CALLING
+        Beep != BEEP_880HZ_200MS &&
+        Beep != BEEP_880HZ_500MS &&
+#endif
+#ifdef ENABLE_FEAT_F4HWN
+        Beep != BEEP_400HZ_30MS &&
+        Beep != BEEP_500HZ_30MS &&
+        Beep != BEEP_600HZ_30MS &&
+#endif
+       !gEeprom.BEEP_CONTROL)
+        return;
+
+#ifdef ENABLE_AIRCOPY
+    if (gScreenToDisplay == DISPLAY_AIRCOPY)
+        return;
+#endif
+
+#ifdef ENABLE_ARDF
+    if ( gARDFPlayEndBeep == false )
+    {
+        // ARDF: play sound even when receiving
+#endif
+
+    if (gCurrentFunction == FUNCTION_RECEIVE)
+        return;
+
+    if (gCurrentFunction == FUNCTION_MONITOR)
+        return;
+
+#ifdef ENABLE_ARDF
+    }
+#endif
+
+#ifdef ENABLE_FMRADIO
+    if (gFmRadioMode)
+        BK1080_Mute(true);
+#endif
+
+    AUDIO_AudioPathOff();
+
+    if (gCurrentFunction == FUNCTION_POWER_SAVE && gRxIdleMode)
+        BK4819_RX_TurnOn();
+
+    SYSTEM_DelayMs(20);
+
+    uint16_t ToneConfig = BK4819_ReadRegister(BK4819_REG_71);
+
+    uint16_t ToneFrequency;
+    switch (Beep)
+    {
+        default:
+        case BEEP_NONE:
+            ToneFrequency = 220;
+            break;
+        case BEEP_1KHZ_60MS_OPTIONAL:
+            ToneFrequency = 1000;
+            break;
+        case BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL:
+        case BEEP_500HZ_60MS_DOUBLE_BEEP:
+            ToneFrequency = 500;
+            break;
+        case BEEP_440HZ_500MS:
+            ToneFrequency = 440;
+            break;
+        case BEEP_880HZ_60MS_DOUBLE_BEEP:
+#ifndef ENABLE_FEAT_F4HWN
+        case BEEP_880HZ_200MS:
+        case BEEP_880HZ_500MS:
+#endif
+            ToneFrequency = 880;
+            break;
+#ifdef ENABLE_FEAT_F4HWN
+        case BEEP_400HZ_30MS:
+            ToneFrequency = 400;
+            break;
+        case BEEP_500HZ_30MS:
+            ToneFrequency = 500;
+            break;
+        case BEEP_600HZ_30MS:
+            ToneFrequency = 600;
+            break;
+#endif
+#ifdef ENABLE_ARDF
+        case BEEP_ARDF_LOW:
+            ToneFrequency = 440;
+            break;
+        case BEEP_ARDF_MID:
+            ToneFrequency = 880;
+            break;
+        case BEEP_ARDF_HIGH:
+            ToneFrequency = 1500;
+            break;
+#endif
+    }
+
+    if(Beep == BEEP_400HZ_30MS || Beep == BEEP_500HZ_30MS || Beep == BEEP_600HZ_30MS)
+    {
+        BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
+    }
+
+    BK4819_PlayTone(ToneFrequency, true);
+
+    SYSTEM_DelayMs(2);
+
+    AUDIO_AudioPathOn();
+
+    SYSTEM_DelayMs(60);
+
+    uint16_t Duration;
+    switch (Beep)
+    {
+        case BEEP_880HZ_60MS_DOUBLE_BEEP:
+            BK4819_ExitTxMute();
+            SYSTEM_DelayMs(60);
+            BK4819_EnterTxMute();
+            SYSTEM_DelayMs(20);
+            [[fallthrough]];
+        case BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL:
+        case BEEP_500HZ_60MS_DOUBLE_BEEP:
+            BK4819_ExitTxMute();
+            SYSTEM_DelayMs(60);
+            BK4819_EnterTxMute();
+            SYSTEM_DelayMs(20);
+            [[fallthrough]];
+        case BEEP_1KHZ_60MS_OPTIONAL:
+            BK4819_ExitTxMute();
+            Duration = 60;
+            break;
+#ifdef ENABLE_FEAT_F4HWN
+        case BEEP_400HZ_30MS:
+        case BEEP_500HZ_30MS:
+        case BEEP_600HZ_30MS:
+            BK4819_ExitTxMute();
+            Duration = 30;
+            break;
+#endif
+#ifdef ENABLE_ARDF
+        case BEEP_ARDF_LOW:
+        case BEEP_ARDF_MID:
+        case BEEP_ARDF_HIGH:
+            BK4819_ExitTxMute();
+            Duration = 60;
+            break;
+#endif
+        case BEEP_440HZ_500MS:
+#ifndef ENABLE_FEAT_F4HWN
+        case BEEP_880HZ_200MS:
+            BK4819_ExitTxMute();
+            Duration = 200;
+            break;
+        case BEEP_880HZ_500MS:
+#endif
+        default:
+            BK4819_ExitTxMute();
+            Duration = 500;
+            break;
+    }
+
+    SYSTEM_DelayMs(Duration);
+    BK4819_EnterTxMute();
+    SYSTEM_DelayMs(20);
+
+    AUDIO_AudioPathOff();
+
+    SYSTEM_DelayMs(5);
+    BK4819_TurnsOffTones_TurnsOnRX();
+    SYSTEM_DelayMs(5);
+    BK4819_WriteRegister(BK4819_REG_71, ToneConfig);
+
+    if (gEnableSpeaker)
+        AUDIO_AudioPathOn();
+
+#ifdef ENABLE_FMRADIO
+    if (gFmRadioMode)
+        BK1080_Mute(false);
+#endif
+
+    if (gCurrentFunction == FUNCTION_POWER_SAVE && gRxIdleMode)
+        BK4819_Sleep();
+
+#ifdef ENABLE_VOX
+    gVoxResumeCountdown = 80;
+#endif
+
+}
+
+/* Voice buffer infrastructure: needed by both pre-produced voice prompts
+   (ENABLE_VOICE) and SAM TTS (ENABLE_SAM_TTS) for DAC/DMA playback. */
+#if defined(ENABLE_VOICE) || defined(ENABLE_SAM_TTS)
+
+uint16_t gVoiceBuf[VOICE_BUF_CAP][VOICE_BUF_LEN];
+uint8_t gVoiceBufReadIndex = 0;
+uint8_t gVoiceBufWriteIndex = 0;
+uint8_t gVoiceBufLen = 0;
+
+#endif /* ENABLE_VOICE || ENABLE_SAM_TTS */
+
+#ifdef ENABLE_VOICE
+
+VOICE_ID_t        gVoiceID[8];
+uint8_t           gVoiceReadIndex;
+uint8_t           gVoiceWriteIndex;
+volatile uint16_t gCountdownToPlayNextVoice_10ms;
+volatile bool     gFlagPlayQueuedVoice;
+VOICE_ID_t        gAnotherVoiceID = VOICE_ID_INVALID;
+
+static const uint16_t VOICE_SAMPLES[256] = 
+{
+    0x06a8, 0x06b8, 0x0688, 0x0698, 0x06e8, 0x06f8, 0x06c8, 0x06d8, //
+    0x0628, 0x0638, 0x0608, 0x0618, 0x0668, 0x0678, 0x0648, 0x0658, //
+    0x0754, 0x075c, 0x0744, 0x074c, 0x0774, 0x077c, 0x0764, 0x076c, //
+    0x0714, 0x071c, 0x0704, 0x070c, 0x0734, 0x073c, 0x0724, 0x072c, //
+    0x02a0, 0x02e0, 0x0220, 0x0260, 0x03a0, 0x03e0, 0x0320, 0x0360, //
+    0x00a0, 0x00e0, 0x0020, 0x0060, 0x01a0, 0x01e0, 0x0120, 0x0160, //
+    0x0550, 0x0570, 0x0510, 0x0530, 0x05d0, 0x05f0, 0x0590, 0x05b0, //
+    0x0450, 0x0470, 0x0410, 0x0430, 0x04d0, 0x04f0, 0x0490, 0x04b0, //
+    0x07ea, 0x07eb, 0x07e8, 0x07e9, 0x07ee, 0x07ef, 0x07ec, 0x07ed, //
+    0x07e2, 0x07e3, 0x07e0, 0x07e1, 0x07e6, 0x07e7, 0x07e4, 0x07e5, //
+    0x07fa, 0x07fb, 0x07f8, 0x07f9, 0x07fe, 0x07ff, 0x07fc, 0x07fd, //
+    0x07f2, 0x07f3, 0x07f0, 0x07f1, 0x07f6, 0x07f7, 0x07f4, 0x07f5, //
+    0x07aa, 0x07ae, 0x07a2, 0x07a6, 0x07ba, 0x07be, 0x07b2, 0x07b6, //
+    0x078a, 0x078e, 0x0782, 0x0786, 0x079a, 0x079e, 0x0792, 0x0796, //
+    0x07d5, 0x07d7, 0x07d1, 0x07d3, 0x07dd, 0x07df, 0x07d9, 0x07db, //
+    0x07c5, 0x07c7, 0x07c1, 0x07c3, 0x07cd, 0x07cf, 0x07c9, 0x07cb, //
+    0x0958, 0x0948, 0x0978, 0x0968, 0x0918, 0x0908, 0x0938, 0x0928, //
+    0x09d8, 0x09c8, 0x09f8, 0x09e8, 0x0998, 0x0988, 0x09b8, 0x09a8, //
+    0x08ac, 0x08a4, 0x08bc, 0x08b4, 0x088c, 0x0884, 0x089c, 0x0894, //
+    0x08ec, 0x08e4, 0x08fc, 0x08f4, 0x08cc, 0x08c4, 0x08dc, 0x08d4, //
+    0x0d60, 0x0d20, 0x0de0, 0x0da0, 0x0c60, 0x0c20, 0x0ce0, 0x0ca0, //
+    0x0f60, 0x0f20, 0x0fe0, 0x0fa0, 0x0e60, 0x0e20, 0x0ee0, 0x0ea0, //
+    0x0ab0, 0x0a90, 0x0af0, 0x0ad0, 0x0a30, 0x0a10, 0x0a70, 0x0a50, //
+    0x0bb0, 0x0b90, 0x0bf0, 0x0bd0, 0x0b30, 0x0b10, 0x0b70, 0x0b50, //
+    0x0815, 0x0814, 0x0817, 0x0816, 0x0811, 0x0810, 0x0813, 0x0812, //
+    0x081d, 0x081c, 0x081f, 0x081e, 0x0819, 0x0818, 0x081b, 0x081a, //
+    0x0805, 0x0804, 0x0807, 0x0806, 0x0801, 0x0800, 0x0803, 0x0802, //
+    0x080d, 0x080c, 0x080f, 0x080e, 0x0809, 0x0808, 0x080b, 0x080a, //
+    0x0856, 0x0852, 0x085e, 0x085a, 0x0846, 0x0842, 0x084e, 0x084a, //
+    0x0876, 0x0872, 0x087e, 0x087a, 0x0866, 0x0862, 0x086e, 0x086a, //
+    0x082b, 0x0829, 0x082f, 0x082d, 0x0823, 0x0821, 0x0827, 0x0825, //
+    0x083b, 0x0839, 0x083f, 0x083d, 0x0833, 0x0831, 0x0837, 0x0835 //
+};
+
+static struct
+{
+    uint32_t Addr;
+    uint32_t Size;
+} VoiceClipState = {0};
+
+static bool LoadVoiceClip(uint8_t VoiceID)
+{
+    if (VoiceID >= VOICE_ID_END)
+    {
+        return false;
+    }
+
+    uint32_t Addr = gEeprom.VOICE_PROMPT == VOICE_PROMPT_CHINESE ? 0x14c000 : 0x14c800;
+    struct
+    {
+        uint32_t Offset;
+        uint32_t Size;
+    } Info;
+    PY25Q16_ReadBuffer(Addr + 8 * VoiceID, &Info, 8);
+
+    if (Info.Offset > 0x0b0000 || Info.Size > 0x019000)
+    {
+        return false;
+    }
+
+    VoiceClipState.Addr = 0x14d000 + Info.Offset;
+    VoiceClipState.Size = Info.Size;
+    return true;
+}
+
+static inline uint32_t CalcDelay(uint32_t Size)
+{
+    return 2 * Size; // in ms!!
+}
+
+static void LoadVoiceSamples()
+{
+    if (0 == VoiceClipState.Addr || 0 == VoiceClipState.Size)
+    {
+        return;
+    }
+    if (gVoiceBufLen >= VOICE_BUF_CAP)
+    {
+        return;
+    }
+
+    /* Use gFrameBuffer (uint8_t [FRAME_LINES][LCD_WIDTH] = 896 bytes)
+       as a temporary read buffer.  Only VOICE_BUF_LEN (160) bytes are
+       needed, which fits easily.  The correct extern declaration comes
+       from driver/st7565.h — do NOT redeclare as uint8_t** here. */
+    uint8_t *Buf = (uint8_t *)gFrameBuffer;
+    PY25Q16_ReadBuffer(VoiceClipState.Addr, Buf, VOICE_BUF_LEN);
+    VoiceClipState.Addr += VOICE_BUF_LEN;
+    VoiceClipState.Size -= VOICE_BUF_LEN;
+
+    for (uint32_t i = 0; i < VOICE_BUF_LEN; i++)
+    {
+        gVoiceBuf[gVoiceBufWriteIndex][i] = VOICE_SAMPLES[Buf[i]];
+    }
+    VOICE_BUF_ForwardWriteIndex();
+    gVoiceBufLen++;
+}
+
+void AUDIO_PlaySingleVoice(bool bFlag)
+{
+    uint8_t VoiceID;
+    uint32_t Delay;
+
+    VoiceID = gVoiceID[0];
+
+    if (gEeprom.VOICE_PROMPT != VOICE_PROMPT_OFF && gVoiceWriteIndex > 0)
+    {
+        if (!LoadVoiceClip(VoiceID))
+            goto Bailout;
+
+        // Delay in 10ms units: clip size in samples at 8kHz
+        Delay = VoiceClipState.Size / 80;
+        if (Delay < 5)
+            Delay = 5;
+
+        if (FUNCTION_IsRx())   // 1of11
+            BK4819_SetAF(BK4819_AF_MUTE);
+
+        #ifdef ENABLE_FMRADIO
+            if (gFmRadioMode)
+                BK1080_Mute(true);
+        #endif
+
+        AUDIO_AudioPathOn();
+
+        #ifdef ENABLE_VOX
+            gVoxResumeCountdown = 2000;
+        #endif
+
+        SYSTEM_DelayMs(5);
+        LoadVoiceSamples();
+        VOICE_Start();
+
+        if (gVoiceWriteIndex == 1)
+            Delay += 3;
+
+        if (bFlag)
+        {
+            SYSTEM_DelayMs(Delay * 10);
+
+            VOICE_Stop();
+
+            if (FUNCTION_IsRx())    // 1of11
+                RADIO_SetModulation(gRxVfo->Modulation);
+
+            #ifdef ENABLE_FMRADIO
+                if (gFmRadioMode)
+                    BK1080_Mute(false);
+            #endif
+
+            if (!gEnableSpeaker)
+                AUDIO_AudioPathOff();
+
+            gVoiceWriteIndex    = 0;
+            gVoiceReadIndex     = 0;
+
+            #ifdef ENABLE_VOX
+                gVoxResumeCountdown = 80;
+            #endif
+
+            return;
+        }
+
+        gVoiceReadIndex                = 1;
+        gCountdownToPlayNextVoice_10ms = Delay;
+        gFlagPlayQueuedVoice           = false;
+
+        return;
+    }
+
+Bailout:
+    gVoiceReadIndex  = 0;
+    gVoiceWriteIndex = 0;
+}
+
+void AUDIO_SetVoiceID(uint8_t Index, VOICE_ID_t VoiceID)
+{
+    if (Index >= ARRAY_SIZE(gVoiceID))
+        return;
+
+    if (Index == 0)
+    {
+        gVoiceWriteIndex = 0;
+        gVoiceReadIndex  = 0;
+    }
+
+    gVoiceID[Index] = VoiceID;
+
+    gVoiceWriteIndex++;
+}
+
+uint8_t AUDIO_SetDigitVoice(uint8_t Index, uint16_t Value)
+{
+    uint16_t Remainder;
+    uint8_t  Result;
+    uint8_t  Count;
+
+    if (Index == 0)
+    {
+        gVoiceWriteIndex = 0;
+        gVoiceReadIndex  = 0;
+    }
+
+    Count     = 0;
+    Result    = Value / 1000U;
+    Remainder = Value % 1000U;
+    if (Remainder < 100U)
+    {
+        if (Remainder < 10U)
+            goto Skip;
+    }
+    else
+    {
+        Result = Remainder / 100U;
+        gVoiceID[gVoiceWriteIndex++] = (VOICE_ID_t)Result;
+        Count++;
+        Remainder -= Result * 100U;
+    }
+    Result = Remainder / 10U;
+    gVoiceID[gVoiceWriteIndex++] = (VOICE_ID_t)Result;
+    Count++;
+    Remainder -= Result * 10U;
+
+Skip:
+    gVoiceID[gVoiceWriteIndex++] = (VOICE_ID_t)Remainder;
+
+    return Count + 1U;
+}
+
+void AUDIO_PlayQueuedVoice(void)
+{
+    uint32_t Delay;
+    bool    Skip;
+
+    Skip = false;
+
+    if (gVoiceReadIndex != gVoiceWriteIndex && gEeprom.VOICE_PROMPT != VOICE_PROMPT_OFF)
+    {
+        uint8_t VoiceID = gVoiceID[gVoiceReadIndex];
+
+        if (LoadVoiceClip(VoiceID))
+        {
+            Delay = VoiceClipState.Size / 80;
+            if (Delay < 5)
+                Delay = 5;
+        }
+        else
+        {
+            Skip = true;
+        }
+
+        gVoiceReadIndex++;
+
+        if (!Skip)
+        {
+            if (gVoiceReadIndex == gVoiceWriteIndex)
+                Delay += 3;
+
+            LoadVoiceSamples();
+            VOICE_Start();
+
+            gCountdownToPlayNextVoice_10ms = Delay;
+            gFlagPlayQueuedVoice           = false;
+
+            #ifdef ENABLE_VOX
+                gVoxResumeCountdown = 2000;
+            #endif
+
+            return;
+        }
+    }
+
+    VOICE_Stop();
+
+    if (FUNCTION_IsRx())
+    {
+        RADIO_SetModulation(gRxVfo->Modulation); // 1of11
+    }
+
+    #ifdef ENABLE_FMRADIO
+        if (gFmRadioMode)
+            BK1080_Mute(false);
+    #endif
+
+    if (!gEnableSpeaker)
+        AUDIO_AudioPathOff();
+
+    #ifdef ENABLE_VOX
+        gVoxResumeCountdown = 80;
+    #endif
+
+    gVoiceWriteIndex    = 0;
+    gVoiceReadIndex     = 0;
+}
+
+#endif
+
+#ifdef ENABLE_SAM_TTS
+
+/* Key that caused the SAM TTS to abort.  Set by AUDIO_PlaySAMText when
+ * a key is detected during playback, consumed by the menu loop to
+ * decide whether to re-announce the next item. */
+KEY_Code_t gSamAbortKey = KEY_INVALID;
+
+bool AUDIO_PlaySAMText(const char *text)
+{
+    if (!text || !*text)
+        return false;
+
+    uint16_t duration_10ms = SAM_StartSpeaking(text);
+    if (duration_10ms == 0)
+        return false;
+
+    if (FUNCTION_IsRx())
+        BK4819_SetAF(BK4819_AF_MUTE);
+
+    /* Disable the BK4819 AF DAC output to prevent FM/AM noise from the
+     * BK4819 analog path interfering with the MCU DAC SAM audio on the
+     * shared audio amplifier line.  RSSI and RX DSP remain active.
+     * Restored after playback finishes — see BK4819_WriteRegister below. */
+    uint16_t saved_reg30 = BK4819_ReadRegister(BK4819_REG_30);
+    BK4819_WriteRegister(BK4819_REG_30,
+        saved_reg30 & ~BK4819_REG_30_MASK_ENABLE_AF_DAC);
+
+    #ifdef ENABLE_FMRADIO
+        if (gFmRadioMode)
+            BK1080_Mute(true);
+    #endif
+
+    AUDIO_AudioPathOn();
+
+    #ifdef ENABLE_VOX
+        gVoxResumeCountdown = 2000;
+    #endif
+
+    SYSTEM_DelayMs(5);
+
+    /* Pre-fill the voice ring buffer with initial samples */
+    while (SAM_IsSpeaking() && gVoiceBufLen < VOICE_BUF_CAP)
+        SAM_FillVoiceBuffer();
+
+    VOICE_Start();
+
+    bool interrupted = false;
+
+    /* Wait for the triggering key to be released first, so the
+     * abort-poll below doesn't immediately catch the key that
+     * started the speech.  Keep filling the buffer while waiting. */
+    {
+        uint16_t wait = 500U;   /* max ~500 ms */
+        while (wait > 0U && SAM_IsSpeaking())
+        {
+            if (KEYBOARD_Poll() == KEY_INVALID)
+                break;
+            if (gVoiceBufLen < VOICE_BUF_CAP)
+                SAM_FillVoiceBuffer();
+            else
+                SYSTEM_DelayMs(5);
+            wait -= 5U;
+        }
+    }
+
+    /* Continue filling the buffer while the DMA ISR drains it.
+     * Poll the keyboard so we can abort immediately if a new
+     * key is pressed (interrupt-and-restart behaviour). */
+    while (SAM_IsSpeaking())
+    {
+        KEY_Code_t key = KEYBOARD_Poll();
+        if (key != KEY_INVALID)
+        {
+            gSamAbortKey = key;
+            SAM_Stop();
+            interrupted = true;
+            break;
+        }
+
+        if (gVoiceBufLen < VOICE_BUF_CAP)
+            SAM_FillVoiceBuffer();
+        else
+            SYSTEM_DelayMs(5);
+    }
+
+    if (!interrupted)
+    {
+        /* Wait for the remaining buffered samples to play out */
+        while (gVoiceBufLen > 0)
+        {
+            KEY_Code_t key = KEYBOARD_Poll();
+            if (key != KEY_INVALID)
+            {
+                gSamAbortKey = key;
+                interrupted = true;
+                break;
+            }
+            SYSTEM_DelayMs(5);
+        }
+    }
+
+    /* Short tail silence so the DAC settles */
+    if (!interrupted)
+        SYSTEM_DelayMs(20);
+
+    VOICE_Stop();
+    gVoiceBufLen = 0;
+
+    /* Re-enable BK4819 AF DAC before restoring modulation */
+    BK4819_WriteRegister(BK4819_REG_30, saved_reg30);
+
+    if (FUNCTION_IsRx())
+        RADIO_SetModulation(gRxVfo->Modulation);
+
+    #ifdef ENABLE_FMRADIO
+        if (gFmRadioMode)
+            BK1080_Mute(false);
+    #endif
+
+    if (!gEnableSpeaker)
+        AUDIO_AudioPathOff();
+
+    #ifdef ENABLE_VOX
+        gVoxResumeCountdown = 80;
+    #endif
+
+    return interrupted;
+}
+
+void AUDIO_SamSayFrequency(uint32_t frequency)
+{
+    char buf[36];
+    /* frequency is in 10 Hz units, e.g. 14500000 = 145.00000 MHz
+     * Format: "1 4 5 point 0 0 0 0 0" — all 5 fractional digits */
+    uint32_t mhz  = frequency / 100000;
+    uint32_t frac = frequency % 100000;
+    int pos = 0;
+
+    /* Spell out MHz digits one at a time */
+    if (mhz >= 1000) {
+        buf[pos++] = '0' + (mhz / 1000);
+        buf[pos++] = ' ';
+        mhz %= 1000;
+    }
+    if (mhz >= 100 || pos > 0) {
+        buf[pos++] = '0' + (mhz / 100);
+        buf[pos++] = ' ';
+        mhz %= 100;
+    }
+    if (mhz >= 10 || pos > 0) {
+        buf[pos++] = '0' + (mhz / 10);
+        buf[pos++] = ' ';
+        mhz %= 10;
+    }
+    buf[pos++] = '0' + mhz;
+    buf[pos++] = ' ';
+
+    /* Decimal point */
+    buf[pos++] = 'p'; buf[pos++] = 'o'; buf[pos++] = 'i';
+    buf[pos++] = 'n'; buf[pos++] = 't'; buf[pos++] = ' ';
+
+    /* All 5 fractional digits for complete frequency readout */
+    uint8_t d1 = frac / 10000; frac %= 10000;
+    uint8_t d2 = frac / 1000;  frac %= 1000;
+    uint8_t d3 = frac / 100;   frac %= 100;
+    uint8_t d4 = frac / 10;
+    uint8_t d5 = frac % 10;
+
+    buf[pos++] = '0' + d1; buf[pos++] = ' ';
+    buf[pos++] = '0' + d2; buf[pos++] = ' ';
+    buf[pos++] = '0' + d3; buf[pos++] = ' ';
+    buf[pos++] = '0' + d4; buf[pos++] = ' ';
+    buf[pos++] = '0' + d5;
+    buf[pos] = '\0';
+
+    AUDIO_PlaySAMText(buf);
+}
+
+void AUDIO_SamSayDigit(uint8_t digit)
+{
+    char buf[4];
+    buf[0] = '0' + (digit % 10);
+    buf[1] = '\0';
+    AUDIO_PlaySAMText(buf);
+}
+
+void AUDIO_SamSayRxTxContext(void)
+{
+    if (gTxVfo->TX_OFFSET_FREQUENCY_DIRECTION == TX_OFFSET_FREQUENCY_DIRECTION_OFF)
+        return;
+
+    /* The user always edits the underlying freq_config_RX field.
+     * Normal mode:  the radio receives on that frequency  → "receive".
+     * Reverse mode: the radio transmits on that frequency → "transmit". */
+    if (gTxVfo->FrequencyReverse)
+        AUDIO_PlaySAMText("transmit");
+    else
+        AUDIO_PlaySAMText("receive");
+}
+
+#endif
