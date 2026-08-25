@@ -23,14 +23,12 @@ It must not be flashed onto a V1/DP32G030, V2/PY32F030 or GD32 model.
 5. Verify its SHA-256 value against `SHA256SUMS.txt`.
 6. Connect the radio as instructed by UVTools2 and flash it.
 
-After this repository is published, UVTools2 can also preload the raw GitHub
-file through this URL pattern:
+After the prepared repository is published as
+`jewelux/quansheng-k5-v3-admin-user`, UVTools2 can preload the raw GitHub file:
 
 ```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/OWNER/REPOSITORY/main/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.1.0-test.bin
+https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.1.0-test.bin
 ```
-
-Replace `OWNER/REPOSITORY` after the final GitHub name is chosen.
 
 ## Test warning
 
