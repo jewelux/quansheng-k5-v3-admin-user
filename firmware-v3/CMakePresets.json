@@ -284,7 +284,7 @@
                 "EDITION_STRING": "AdminUser-SAM-Test",
                 "TARGET": "quansheng.AdminUser_SAM_Test_K5v3_K1",
                 "AUTHOR_STRING_2": "LX1WJ-DO9RE",
-                "VERSION_STRING_2": "v0.1-test"
+                "VERSION_STRING_2": "v0.1.1-test"
             }
         },
         {
@@ -294,7 +294,7 @@
                 "ENABLE_PREVENT_TX": true,
                 "EDITION_STRING": "AdminUser-SAM-RXOnly",
                 "TARGET": "quansheng.AdminUser_SAM_RXOnly_K5v3_K1",
-                "VERSION_STRING_2": "v0.1-rx"
+                "VERSION_STRING_2": "v0.1.1-rx"
             }
         }
     ],

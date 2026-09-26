@@ -83,12 +83,6 @@ void Main(void)
     SYSTICK_Init();
     BOARD_Init();
 
-#if defined(ENABLE_ARDF) && defined(ENABLE_ADMIN_USER_MODE)
-    // Normal boot enters the protected user interface.  Holding MENU while
-    // switching the radio on keeps Richard's complete configuration UI.
-    gARDFAdminMode = (KEYBOARD_Poll() == KEY_MENU);
-#endif
-
     boot_counter_10ms = 250;   // 2.5 sec
 
 #ifdef ENABLE_UART
@@ -111,13 +105,24 @@ void Main(void)
     SETTINGS_InitEEPROM();
 
 #ifdef ENABLE_ARDF
-    ARDF_init();
 #ifdef ENABLE_ADMIN_USER_MODE
-    // The protected user interface is always an ARDF receiver interface.
-    // Admin mode keeps the persisted ARDF setting for configuration/testing.
+    // Sample MENU over 100 ms after the board and settings initialization.
+    // A single scan immediately after BOARD_Init is too early on real radios.
+    uint8_t menu_samples = 0;
+    for (uint8_t i = 0; i < 5; i++)
+    {
+        if (KEYBOARD_Poll() == KEY_MENU)
+            menu_samples++;
+        SYSTEM_DelayMs(20);
+    }
+    gARDFAdminMode = (menu_samples >= 3);
+
+    // Normal boot is always the protected ARDF receiver interface.  Admin
+    // boot keeps the persisted setting so Richard's full UI can configure it.
     if (!gARDFAdminMode)
         gSetting_ARDFEnable = true;
 #endif
+    ARDF_init();
 #endif
 
     #ifdef ENABLE_FEAT_F4HWN
@@ -274,6 +279,12 @@ void Main(void)
 #endif
 
         BOOT_ProcessMode(BootMode);
+
+#if defined(ENABLE_ARDF) && defined(ENABLE_ADMIN_USER_MODE) && defined(ENABLE_SAM_TTS)
+        // Audible confirmation makes the selected boot mode testable without
+        // relying on display state. AUDIO_PlaySAMText waits for MENU release.
+        AUDIO_PlaySAMText(gARDFAdminMode ? "administrator mode" : "ARDF user mode");
+#endif
 
         // GPIO_ClearBit(&GPIOA->DATA, GPIOA_PIN_VOICE_0);
 

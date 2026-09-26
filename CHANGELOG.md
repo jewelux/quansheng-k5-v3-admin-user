@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1-test
+
+- Detect held `MENU` with five stable samples after settings initialization.
+- Force ARDF user mode before ARDF initialization and radio configuration.
+- Announce `ARDF user mode` or `administrator mode` after boot.
+- Supersedes 0.1.0-test, whose power-on MENU scan happened too early.
+
 ## 0.1.0-test
 
 - Start from Richard's V3 source at commit `d555b2f`.
