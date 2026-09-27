@@ -875,6 +875,14 @@ void MENU_PlayMorseForCurrentItem(void)
                 MENU_ClampSelection(dir);
             }
             gRequestDisplayScreen = DISPLAY_MENU;
+
+            // The raw key press is consumed by the interruptible Morse loop,
+            // so refresh the screen here instead of waiting for the normal
+            // application loop.  This makes a short tap visibly advance.
+            if (!gIsInSubMenu)
+                MENU_ShowCurrentSetting();
+            gScreenToDisplay = DISPLAY_MENU;
+            UI_DisplayMenu();
         }
 
         // Wait for the navigation key to be released before re-announcing
@@ -884,7 +892,7 @@ void MENU_PlayMorseForCurrentItem(void)
         // item, preserving useful feedback for blind users.
         {
             const int8_t repeat_dir = (gMorseAbortKey == KEY_UP) ? 1 : -1;
-            uint16_t repeat_delay_ms = 280U;
+            uint16_t repeat_delay_ms = 450U;
             while (KEYBOARD_Poll() == gMorseAbortKey)
             {
                 SYSTEM_DelayMs(10);
@@ -905,8 +913,11 @@ void MENU_PlayMorseForCurrentItem(void)
                     MENU_ClampSelection(repeat_dir);
                 }
                 gRequestDisplayScreen = DISPLAY_MENU;
+                if (!gIsInSubMenu)
+                    MENU_ShowCurrentSetting();
+                gScreenToDisplay = DISPLAY_MENU;
                 UI_DisplayMenu();
-                repeat_delay_ms = 100U;
+                repeat_delay_ms = 350U;
             }
         }
 

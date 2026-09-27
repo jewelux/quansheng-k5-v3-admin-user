@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.3-rxonly-test
+
+- Refresh the menu display immediately after a short arrow press interrupts
+  Morse, so the newly selected item is visible before it is announced.
+- Slow held-arrow browsing to a 450 ms initial delay and 350 ms per following
+  item, allowing sighted users to read menu labels.
+- Retain the `DO9RE-LX1WJ` credit, accessibility modes and RX-only guards.
+
 ## 0.3.2-rxonly-test
 
 - Show the shared credit `DO9RE-LX1WJ` on the first firmware line and the

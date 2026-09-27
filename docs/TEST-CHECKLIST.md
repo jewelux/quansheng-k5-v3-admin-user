@@ -17,6 +17,9 @@ before each test.
 - 2026-09-27, `v0.3.2-rxonly-test`: shared `DO9RE-LX1WJ` credit plus
   interruptible Morse and held-arrow fast scrolling built with GCC 13.3.1.
   Hardware testing is pending.
+- 2026-09-27, `v0.3.3-rxonly-test`: immediate display refresh after a short
+  Morse-interrupting arrow press and slower held-arrow scrolling. Hardware
+  testing is pending.
 
 ## Admin/User separation
 
@@ -83,3 +86,11 @@ RF power measurement; a successful compile is not sufficient certification.
   without speaking every intermediate entry.
 - Release the arrow; only the final selected entry should be announced.
 - Repeat inside a submenu and confirm values change in the correct direction.
+
+## Navigation correction v0.3.3 test
+
+- Tap an arrow during Morse: the sound must stop and the display must advance
+  immediately by exactly one item.
+- Hold an arrow: scrolling should begin after about 450 ms and advance roughly
+  every 350 ms, slowly enough to read each label.
+- Release the arrow and confirm only the final item is announced.
