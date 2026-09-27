@@ -108,3 +108,17 @@ RF power measurement; a successful compile is not sufficient certification.
 - Immediately after confirming an Access or Voice value, navigate again and
   confirm that the queued confirmation does not overwrite the menu name.
 - Switch back to `Access: Morse` and repeat a short navigation regression.
+
+## Admin/User hardening v0.3.5 test
+
+- Confirm the welcome screen shows `DO9RE-LX1WJ` and `v0.35`.
+- Hold `PTT` + `SIDE1` while switching on: the radio must start in the
+  protected user interface, not in the administrator interface.
+- Hold `MENU` while switching on: the administrator interface must open.
+- In Admin mode switch ARDF off, then power-cycle normally: all keys except
+  `UP`/`DOWN` must be rejected with a double beep, and `PTT` must be refused.
+- Switch ARDF on again in Admin mode and confirm the normal user behaviour.
+- With `Access: Voice`, interrupt a clip on an item without a stored sample:
+  Morse must follow and receiver audio must return afterwards.
+- Confirm the BK4829 register commands (0x0601/0x0602) are not answered over
+  USB/UART in the RX-only image.

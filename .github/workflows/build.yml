@@ -36,11 +36,11 @@ jobs:
         working-directory: firmware-v3
         run: cmake --build --preset AdminUser-Morse-Test
 
-      - name: Configure future RX-only build
+      - name: Configure RX-only build
         working-directory: firmware-v3
         run: cmake --preset AdminUser-Morse-RXOnly
 
-      - name: Build future RX-only firmware
+      - name: Build RX-only firmware
         working-directory: firmware-v3
         run: cmake --build --preset AdminUser-Morse-RXOnly
 
@@ -49,4 +49,11 @@ jobs:
         with:
           name: Quansheng-K5V3-AdminUser-Morse-test
           path: firmware-v3/build/AdminUser-Morse-Test/quansheng.AdminUser_Morse_Test_K5v3_K1.bin
+          if-no-files-found: error
+
+      - name: Upload RX-only build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Quansheng-K5V3-AdminUser-MorseVoice-rxonly
+          path: firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin
           if-no-files-found: error
