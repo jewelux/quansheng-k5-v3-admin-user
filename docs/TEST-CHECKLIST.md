@@ -9,6 +9,8 @@ before each test.
   test-fox reception passed on the target radio.
 - 2026-09-27, `v0.2.4-user-test`: initial Admin/User smoke test reported as
   working. Complete item-by-item acoustic regression remains pending.
+- 2026-09-27, `v0.3.0-rxonly-test`: multi-layer TX-prevention image built with
+  GCC 13.3.1. Target-radio and RF-output tests are pending.
 
 ## Admin/User separation
 
@@ -41,3 +43,14 @@ public field release.
 
 The later RX-only release requires a separate multi-layer software audit and an
 RF power measurement; a successful compile is not sufficient certification.
+
+## RX-only v0.3.0 test
+
+- Confirm the display advances beyond `LX1WJ v0.30` at normal startup.
+- Repeat every Admin/User and acoustic-regression item above.
+- Verify short PTT produces the audible ARDF snapshot without RF output.
+- Verify held PTT produces compass/level sonification without RF output.
+- Measure RF output for normal PTT outside ARDF, VOX, alarm, 1750 Hz, DTMF,
+  Aircopy, scanner and serial-control requests.
+- Confirm the red TX LED never lights and the UI never remains in TX state.
+- Repeat RF measurement in both normal User and held-`MENU` Admin boots.

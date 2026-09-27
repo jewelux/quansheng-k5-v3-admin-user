@@ -15,25 +15,24 @@ removing menu entries or audio code:
 
 ## Development status
 
-The current development artifact is `v0.2.4-test`. An initial hardware test on
-2026-09-27 confirmed that it boots, receives the test fox, retains the ARDF
-`UP`/`DOWN` controls, and provides the menu through the administrator boot.
-The complete acoustic-regression checklist remains open.
+The current development artifact is `v0.3.0-rxonly-test`. It adds multi-layer
+software TX prevention to the hardware-tested v0.2.4 Admin/User behaviour. The
+new image builds successfully but still requires target-radio startup,
+acoustic-regression and RF-output tests. The previous v0.2.4 image remains in
+`online-flasher/archive/` as the last hardware-tested Admin/User baseline.
 
 Earlier Admin/User images froze on the welcome screen because their combined
 author/version text exceeded the width assumed by Richard's unbounded small-text
 renderer and overwrote the framebuffer. Development builds therefore use the
-short on-screen identifier `LX1WJ v0.24`.
+short on-screen identifier `LX1WJ v0.30`.
 
 ## Important test warning
 
-`AdminUser-Morse-Test` is a development build. Its global `ENABLE_PREVENT_TX`
-switch is deliberately **off** so Admin/User behaviour can be tested separately
-from the later transmitter-removal stage. Do not treat it as a legally certified
-receive-only device and do not distribute it for unsupervised children's use.
-
-`AdminUser-Morse-RXOnly` is already defined as a separate build target, but it is
-not a substitute for the planned multi-layer TX-path audit and hardware test.
+`AdminUser-Morse-RXOnly` enables `ENABLE_PREVENT_TX` and additional guards at
+the transmit-state, TX-register and PA-control layers. It does not remove the
+transmitter hardware and is not a substitute for RF measurement or legal
+certification. Do not distribute this test image for unsupervised children's
+use until the hardware checklist has passed.
 
 ## Online flasher
 
@@ -50,14 +49,14 @@ the welcome screen, while Richard's clean source built with 13.3.Rel1 works on
 the target radio.
 
 ```sh
-cmake --preset AdminUser-Morse-Test firmware-v3
-cmake --build --preset AdminUser-Morse-Test
+cmake --preset AdminUser-Morse-RXOnly firmware-v3
+cmake --build --preset AdminUser-Morse-RXOnly
 ```
 
 Build output:
 
 ```text
-firmware-v3/build/AdminUser-Morse-Test/quansheng.AdminUser_Morse_Test_K5v3_K1.bin
+firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin
 ```
 
 ## Origin

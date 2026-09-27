@@ -239,6 +239,17 @@ void FUNCTION_Select(FUNCTION_Type_t Function)
     const FUNCTION_Type_t PreviousFunction = gCurrentFunction;
     const bool bWasPowerSave = PreviousFunction == FUNCTION_POWER_SAVE;
 
+#ifdef ENABLE_PREVENT_TX
+    // Receive-only builds must never enter the transmit state.  ARDF handles
+    // PTT snapshot/compass input before it can reach this state, so rejecting
+    // RF transmit here does not remove the accessible PTT functions.
+    if (Function == FUNCTION_TRANSMIT) {
+        BK4819_SetupPowerAmplifier(0, 0);
+        BK4819_ToggleGpioOut(BK4819_GPIO1_PIN29_PA_ENABLE, false);
+        return;
+    }
+#endif
+
     gCurrentFunction = Function;
 
     if (bWasPowerSave && Function != FUNCTION_POWER_SAVE) {

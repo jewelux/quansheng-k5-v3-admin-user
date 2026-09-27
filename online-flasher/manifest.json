@@ -1,18 +1,25 @@
 {
   "schema_version": 1,
   "firmware": {
-    "name": "Quansheng K5 V3 Admin User Morse Test",
-    "version": "0.2.4-test",
-    "file": "Quansheng-K5V3-AdminUser-Morse-v0.2.4-test.bin",
-    "size": 90612,
-    "sha256": "37BBD8310F2AEE97C97C960444185B3EA5B86AF0DBDEBF0B11C325E53B557261",
+    "name": "Quansheng K5 V3 Admin User Morse RX-Only Test",
+    "version": "0.3.0-rxonly-test",
+    "file": "Quansheng-K5V3-AdminUser-Morse-v0.3.0-rxonly-test.bin",
+    "size": 89312,
+    "sha256": "A334AA4604DAE75757D714D94771D12E2BC57699BEFD8983257211CE419CCC41",
     "format": "raw-bin",
     "mcu": "PY32F071",
     "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
     "build_preset": "AdminUser-Morse-Test",
-    "tx_prevention": false,
+    "tx_prevention": true,
+    "tx_prevention_layers": [
+      "frequency validation rejects every TX frequency",
+      "RADIO_PrepareTX refuses every transmit request",
+      "FUNCTION_Select refuses FUNCTION_TRANSMIT",
+      "RADIO_SetTxParameters returns before TX register setup",
+      "RF driver forces PA bias and PA enable off"
+    ],
     "status": "experimental",
-    "hardware_test": "initial smoke test passed 2026-09-27; full checklist pending",
+    "hardware_test": "not yet tested on target hardware; RF power and acoustic regression checks required",
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
   "upstream": {

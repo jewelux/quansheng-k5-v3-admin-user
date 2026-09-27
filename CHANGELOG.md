@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0-rxonly-test
+
+- Build on the hardware-tested v0.2.4 Admin/User behaviour without changing
+  the ARDF PTT snapshot/compass or Morse accessibility paths.
+- Enable the existing global `ENABLE_PREVENT_TX` frequency and prepare-TX
+  checks.
+- Refuse `FUNCTION_TRANSMIT` centrally.
+- Return from `RADIO_SetTxParameters()` before any TX register setup.
+- Force PA bias and the external PA-enable GPIO off in both RF drivers.
+- Use the short startup identifier `LX1WJ v0.30` to remain within the welcome
+  renderer's safe width.
+- Build successfully with Arm GNU Toolchain 13.3.Rel1; hardware and RF-output
+  tests are still pending.
+
 ## 0.2.4-user-test
 
 - Initial on-device smoke test reported successful on 2026-09-27; the full

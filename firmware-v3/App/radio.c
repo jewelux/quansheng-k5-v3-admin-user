@@ -994,6 +994,14 @@ void RADIO_SetupRegisters(bool switchToForeground)
 
 void RADIO_SetTxParameters(void)
 {
+#ifdef ENABLE_PREVENT_TX
+    // Defence in depth for paths such as Aircopy or menu helpers which can
+    // call this routine without first going through RADIO_PrepareTX().
+    BK4819_SetupPowerAmplifier(0, 0);
+    BK4819_ToggleGpioOut(BK4819_GPIO1_PIN29_PA_ENABLE, false);
+    return;
+#endif
+
     BK4819_FilterBandwidth_t Bandwidth = gCurrentVfo->CHANNEL_BANDWIDTH;
 
     #ifdef ENABLE_FEAT_F4HWN_NARROWER
