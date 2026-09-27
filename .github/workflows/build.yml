@@ -15,23 +15,23 @@ jobs:
 
       - name: Configure Admin/User test build
         working-directory: firmware-v3
-        run: cmake --preset AdminUser-SAM-Test
+        run: cmake --preset AdminUser-Morse-Test
 
       - name: Build Admin/User test firmware
         working-directory: firmware-v3
-        run: cmake --build --preset AdminUser-SAM-Test
+        run: cmake --build --preset AdminUser-Morse-Test
 
       - name: Configure future RX-only build
         working-directory: firmware-v3
-        run: cmake --preset AdminUser-SAM-RXOnly
+        run: cmake --preset AdminUser-Morse-RXOnly
 
       - name: Build future RX-only firmware
         working-directory: firmware-v3
-        run: cmake --build --preset AdminUser-SAM-RXOnly
+        run: cmake --build --preset AdminUser-Morse-RXOnly
 
       - name: Upload test build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Quansheng-K5V3-AdminUser-SAM-test
-          path: firmware-v3/build/AdminUser-SAM-Test/quansheng.AdminUser_SAM_Test_K5v3_K1.bin
+          name: Quansheng-K5V3-AdminUser-Morse-test
+          path: firmware-v3/build/AdminUser-Morse-Test/quansheng.AdminUser_Morse_Test_K5v3_K1.bin
           if-no-files-found: error

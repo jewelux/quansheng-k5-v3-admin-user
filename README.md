@@ -4,7 +4,7 @@ Experimental Admin/User extension of Richard's talking ARDF firmware for the
 Quansheng UV-K5 V3 and UV-K1 (PY32F071).
 
 The first development stage deliberately preserves Richard's complete menu and
-all Morse/SAM accessibility paths. It adds a protected user interface without
+Richard's proven Morse accessibility path. It adds a protected user interface without
 removing menu entries or audio code:
 
 - normal power-on: protected ARDF user interface;
@@ -15,12 +15,12 @@ removing menu entries or audio code:
 
 ## Important test warning
 
-`AdminUser-SAM-Test` is a development build. Its global `ENABLE_PREVENT_TX`
+`AdminUser-Morse-Test` is a development build. Its global `ENABLE_PREVENT_TX`
 switch is deliberately **off** so Admin/User behaviour can be tested separately
 from the later transmitter-removal stage. Do not treat it as a legally certified
 receive-only device and do not distribute it for unsupervised children's use.
 
-`AdminUser-SAM-RXOnly` is already defined as a separate build target, but it is
+`AdminUser-Morse-RXOnly` is already defined as a separate build target, but it is
 not a substitute for the planned multi-layer TX-path audit and hardware test.
 
 ## Online flasher
@@ -34,14 +34,14 @@ direct `firmwareURL` link format.
 Required tools: CMake, Ninja and the `arm-none-eabi` GCC toolchain.
 
 ```sh
-cmake --preset AdminUser-SAM-Test firmware-v3
-cmake --build --preset AdminUser-SAM-Test
+cmake --preset AdminUser-Morse-Test firmware-v3
+cmake --build --preset AdminUser-Morse-Test
 ```
 
 Build output:
 
 ```text
-firmware-v3/build/AdminUser-SAM-Test/quansheng.AdminUser_SAM_Test_K5v3_K1.bin
+firmware-v3/build/AdminUser-Morse-Test/quansheng.AdminUser_Morse_Test_K5v3_K1.bin
 ```
 
 ## Origin

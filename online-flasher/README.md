@@ -2,7 +2,7 @@
 
 ## Select exactly this file
 
-`Quansheng-K5V3-AdminUser-SAM-v0.1.3-test.bin`
+`Quansheng-K5V3-AdminUser-Morse-v0.2.0-test.bin`
 
 It is a raw PY32F071 V3/K1 firmware image. Do **not** rename or convert it to a
 V1 `.packed.bin` image.
@@ -27,7 +27,7 @@ After the prepared repository is published as
 `jewelux/quansheng-k5-v3-admin-user`, UVTools2 can preload the raw GitHub file:
 
 ```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.1.3-test.bin
+https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminUser-Morse-v0.2.0-test.bin
 ```
 
 ## Test warning

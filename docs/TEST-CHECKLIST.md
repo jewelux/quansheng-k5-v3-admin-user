@@ -15,17 +15,17 @@ before each test.
 
 ## Acoustic regression
 
-- Every visible main-menu item is announced.
-- Every visible submenu value is announced.
-- Fast UP/DOWN navigation interrupts and restarts speech correctly.
-- ARDF gain is announced.
-- Frequency readout works.
+- Every supported main-menu item is output in Morse.
+- Every supported submenu value is output in Morse.
+- UP/DOWN navigation produces the corresponding Morse feedback.
+- ARDF gain feedback works.
+- Frequency feedback works where supported by Richard's Morse mode.
 - ARDF snapshot and compass/level sonification work.
 - Beeps remain audible at strongly reduced ARDF gain.
 - Receiver audio returns after each generated announcement.
-- Power cycling preserves accessibility speed, pitch and mouth parameters.
+- Power cycling preserves the configured Morse accessibility settings.
 
-## Transmission warning for 0.1.0-test
+## Transmission warning for development test builds
 
 This phase intentionally does not claim receive-only operation. Test only on a
 dummy load or under controlled, licensed conditions. Record RF output checks for

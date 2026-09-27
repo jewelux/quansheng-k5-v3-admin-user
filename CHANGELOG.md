@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0-test
+
+- Rebase the Admin/User build configuration on Richard's hardware-proven
+  `ARDF-Morse` preset instead of the freezing experimental SAM preset.
+- Restore Richard's normal welcome countdown and retain Morse menu feedback.
+- Keep TX prevention disabled only in this controlled Admin/User test build.
+
 ## 0.1.3-test
 
 - Bypass the interrupt-driven welcome-screen countdown in Admin/User builds

@@ -1,5 +1,6 @@
 firmware-v3/build/
 firmware-v3/archive/
+.upstream-reference/
 *.elf
 *.hex
 *.map
