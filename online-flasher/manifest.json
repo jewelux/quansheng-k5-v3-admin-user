@@ -1,17 +1,18 @@
 {
   "schema_version": 1,
   "firmware": {
-    "name": "Quansheng K5 V3 Admin Entry Morse Test",
-    "version": "0.2.3-test",
-    "file": "Quansheng-K5V3-AdminEntry-Morse-v0.2.3-test.bin",
-    "size": 90568,
-    "sha256": "9834F07BAA41C8514C9AF77C03C190B5C84C4F8EBE1CEEFEE967B88D8750194E",
+    "name": "Quansheng K5 V3 Admin User Morse Test",
+    "version": "0.2.4-test",
+    "file": "Quansheng-K5V3-AdminUser-Morse-v0.2.4-test.bin",
+    "size": 90612,
+    "sha256": "37BBD8310F2AEE97C97C960444185B3EA5B86AF0DBDEBF0B11C325E53B557261",
     "format": "raw-bin",
     "mcu": "PY32F071",
     "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
-    "build_preset": "AdminUser-Morse-Test (entry-only stage)",
+    "build_preset": "AdminUser-Morse-Test",
     "tx_prevention": false,
     "status": "experimental",
+    "hardware_test": "initial smoke test passed 2026-09-27; full checklist pending",
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
   "upstream": {

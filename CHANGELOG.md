@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.4-user-test
+
+- Initial on-device smoke test reported successful on 2026-09-27; the full
+  acoustic and transmit-path checklists are still pending.
+- Build on the hardware-tested 0.2.3 administrator entry.
+- Add only the protected normal-boot key filter while ARDF mode is active:
+  allow `UP`, `DOWN`, and PTT; reject the other keys with a double beep.
+- Keep Richard's original arrow direction handling and do not yet force ARDF
+  mode or enable global TX prevention.
+
 ## 0.2.3-entry-test
 
 - Hardware-tested successfully: normal boot, `UP`, `DOWN`, menu and audible

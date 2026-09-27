@@ -2,7 +2,7 @@
 
 ## Select exactly this file
 
-`Quansheng-K5V3-AdminEntry-Morse-v0.2.3-test.bin`
+`Quansheng-K5V3-AdminUser-Morse-v0.2.4-test.bin`
 
 It is a raw PY32F071 V3/K1 firmware image. Do **not** rename or convert it to a
 V1 `.packed.bin` image.
@@ -27,14 +27,14 @@ After the prepared repository is published as
 `jewelux/quansheng-k5-v3-admin-user`, UVTools2 can preload the raw GitHub file:
 
 ```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminEntry-Morse-v0.2.3-test.bin
+https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminUser-Morse-v0.2.4-test.bin
 ```
 
 ## Test warning
 
-This `-test` image isolates only the held-`MENU` administrator entry. User-key
-filtering and global TX prevention are not enabled in this build. It is not the
-final receive-only children's firmware.
+This `-test` image adds protected normal-boot keys to the tested held-`MENU`
+administrator entry. Global TX prevention is not enabled in this build. It is
+not the final receive-only children's firmware.
 
 `manifest.json` documents the artifact for humans and release automation;
 UVTools2 itself processes the `.bin` file.

@@ -3,6 +3,13 @@
 Record radio model, MCU marking, previous firmware and calibration-backup name
 before each test.
 
+## Recorded development tests
+
+- 2026-09-27, `v0.2.3-entry-test`: normal boot, `UP`, `DOWN`, menu, and audible
+  test-fox reception passed on the target radio.
+- 2026-09-27, `v0.2.4-user-test`: initial Admin/User smoke test reported as
+  working. Complete item-by-item acoustic regression remains pending.
+
 ## Admin/User separation
 
 - Normal power-on enters the protected user interface.

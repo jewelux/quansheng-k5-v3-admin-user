@@ -13,6 +13,18 @@ removing menu entries or audio code:
 - user interface: `PTT` keeps Richard's acoustic ARDF snapshot action;
 - other configuration keys are rejected with a low double beep.
 
+## Development status
+
+The current development artifact is `v0.2.4-test`. An initial hardware test on
+2026-09-27 confirmed that it boots, receives the test fox, retains the ARDF
+`UP`/`DOWN` controls, and provides the menu through the administrator boot.
+The complete acoustic-regression checklist remains open.
+
+Earlier Admin/User images froze on the welcome screen because their combined
+author/version text exceeded the width assumed by Richard's unbounded small-text
+renderer and overwrote the framebuffer. Development builds therefore use the
+short on-screen identifier `LX1WJ v0.24`.
+
 ## Important test warning
 
 `AdminUser-Morse-Test` is a development build. Its global `ENABLE_PREVENT_TX`
