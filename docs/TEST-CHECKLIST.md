@@ -11,6 +11,9 @@ before each test.
   working. Complete item-by-item acoustic regression remains pending.
 - 2026-09-27, `v0.3.0-rxonly-test`: multi-layer TX-prevention image built with
   GCC 13.3.1. Target-radio and RF-output tests are pending.
+- 2026-09-27, `v0.3.1-rxonly-test`: Morse plus stored voice samples and the
+  two-line LX1WJ/DO9RE attribution built with GCC 13.3.1. Hardware testing is
+  pending.
 
 ## Admin/User separation
 
@@ -54,3 +57,16 @@ RF power measurement; a successful compile is not sufficient certification.
   Aircopy, scanner and serial-control requests.
 - Confirm the red TX LED never lights and the UI never remains in TX state.
 - Repeat RF measurement in both normal User and held-`MENU` Admin boots.
+
+## Morse and voice-sample v0.3.1 test
+
+- Confirm the welcome screen shows `LX1WJ v0.31` and `DO9RE-RX Edition` and
+  advances normally.
+- In Admin mode, confirm `Access` offers both `Morse` and `Voice`.
+- Confirm `Voice` offers `Off`, `Chinese` and `English`.
+- Select `Access: Morse` and repeat the complete Morse regression above.
+- Select `Access: Voice` with `Voice: English`; check every available menu
+  announcement and note missing or incorrect stored samples.
+- Confirm an unmapped voice item falls back to Morse.
+- Repeat PTT snapshot, held-PTT compass and RF-output checks in both access
+  modes.

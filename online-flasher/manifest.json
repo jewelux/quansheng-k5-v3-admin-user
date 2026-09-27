@@ -1,16 +1,17 @@
 {
   "schema_version": 1,
   "firmware": {
-    "name": "Quansheng K5 V3 Admin User Morse RX-Only Test",
-    "version": "0.3.0-rxonly-test",
-    "file": "Quansheng-K5V3-AdminUser-Morse-v0.3.0-rxonly-test.bin",
-    "size": 89312,
-    "sha256": "A334AA4604DAE75757D714D94771D12E2BC57699BEFD8983257211CE419CCC41",
+    "name": "Quansheng K5 V3 Admin User Morse Voice RX-Only Test",
+    "version": "0.3.1-rxonly-test",
+    "file": "Quansheng-K5V3-AdminUser-MorseVoice-v0.3.1-rxonly-test.bin",
+    "size": 92840,
+    "sha256": "516E6F36129E2E089FED9C02E625F41E8E60C2C4F6E0A3DB58B091D88851584F",
     "format": "raw-bin",
     "mcu": "PY32F071",
     "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
     "build_preset": "AdminUser-Morse-Test",
     "tx_prevention": true,
+    "accessibility_modes": ["Morse", "Voice samples"],
     "tx_prevention_layers": [
       "frequency validation rejects every TX frequency",
       "RADIO_PrepareTX refuses every transmit request",
@@ -19,7 +20,7 @@
       "RF driver forces PA bias and PA enable off"
     ],
     "status": "experimental",
-    "hardware_test": "not yet tested on target hardware; RF power and acoustic regression checks required",
+    "hardware_test": "not yet tested on target hardware; startup, voice samples, RF power and acoustic regression checks required",
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
   "upstream": {

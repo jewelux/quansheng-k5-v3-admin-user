@@ -281,7 +281,7 @@
             "cacheVariables": {
                 "ENABLE_ADMIN_USER_MODE": true,
                 "ENABLE_PREVENT_TX": false,
-                "EDITION_STRING": "AdminUser",
+                "EDITION_STRING": "DO9RE",
                 "TARGET": "quansheng.AdminUser_Morse_Test_K5v3_K1",
                 "AUTHOR_STRING_2": "LX1WJ",
                 "VERSION_STRING_2": "v0.24"
@@ -292,9 +292,11 @@
             "inherits": "AdminUser-Morse-Test",
             "cacheVariables": {
                 "ENABLE_PREVENT_TX": true,
-                "EDITION_STRING": "RXOnly",
+                "ENABLE_VOICE": true,
+                "ENABLE_VOICE_PROMPTS": true,
+                "EDITION_STRING": "DO9RE-RX",
                 "TARGET": "quansheng.AU_RX_K5v3_K1",
-                "VERSION_STRING_2": "v0.30"
+                "VERSION_STRING_2": "v0.31"
             }
         }
     ],

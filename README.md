@@ -15,16 +15,17 @@ removing menu entries or audio code:
 
 ## Development status
 
-The current development artifact is `v0.3.0-rxonly-test`. It adds multi-layer
-software TX prevention to the hardware-tested v0.2.4 Admin/User behaviour. The
-new image builds successfully but still requires target-radio startup,
-acoustic-regression and RF-output tests. The previous v0.2.4 image remains in
-`online-flasher/archive/` as the last hardware-tested Admin/User baseline.
+The current development artifact is `v0.3.1-rxonly-test`. It combines
+multi-layer software TX prevention with Morse and Richard's stored voice-sample
+system. The new image builds successfully but still requires target-radio
+startup, voice-sample, acoustic-regression and RF-output tests. Previous test
+images remain in `online-flasher/archive/`.
 
 Earlier Admin/User images froze on the welcome screen because their combined
 author/version text exceeded the width assumed by Richard's unbounded small-text
 renderer and overwrote the framebuffer. Development builds therefore use the
-short on-screen identifier `LX1WJ v0.30`.
+short on-screen identifiers: `LX1WJ v0.31` and `DO9RE-RX Edition`. This keeps
+both contributors visible without recreating the framebuffer overflow.
 
 ## Important test warning
 

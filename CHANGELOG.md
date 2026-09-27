@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.1-rxonly-test
+
+- Restore DO9RE visibly on the welcome screen as `DO9RE-RX Edition`, on a
+  separate safe-width line below `LX1WJ v0.31`.
+- Compile Richard's stored voice-sample engine and expanded ARDF voice prompts
+  alongside Morse.
+- Provide `Morse` and `Voice` choices in the `Access` menu.
+- Restore the separate `Voice` setting with `Off`, `Chinese` and `English`.
+- Keep SAM text-to-speech disabled and retain all five RX-only guard layers.
+- Build successfully with Arm GNU Toolchain 13.3.Rel1; hardware testing is
+  pending.
+
 ## 0.3.0-rxonly-test
 
 - Build on the hardware-tested v0.2.4 Admin/User behaviour without changing
