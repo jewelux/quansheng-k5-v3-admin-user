@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2-test
+
+- Remove the early SAM mode announcement that could block before the main
+  application loop and leave the radio frozen on the welcome screen.
+- Keep the stabilized MENU sampling and all of Richard's runtime SAM menu
+  announcements.
+
 ## 0.1.1-test
 
 - Detect held `MENU` with five stable samples after settings initialization.

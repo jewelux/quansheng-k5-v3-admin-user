@@ -280,12 +280,6 @@ void Main(void)
 
         BOOT_ProcessMode(BootMode);
 
-#if defined(ENABLE_ARDF) && defined(ENABLE_ADMIN_USER_MODE) && defined(ENABLE_SAM_TTS)
-        // Audible confirmation makes the selected boot mode testable without
-        // relying on display state. AUDIO_PlaySAMText waits for MENU release.
-        AUDIO_PlaySAMText(gARDFAdminMode ? "administrator mode" : "ARDF user mode");
-#endif
-
         // GPIO_ClearBit(&GPIOA->DATA, GPIOA_PIN_VOICE_0);
 
         gUpdateStatus = true;
