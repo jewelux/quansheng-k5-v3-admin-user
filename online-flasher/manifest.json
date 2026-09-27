@@ -2,14 +2,17 @@
   "schema_version": 1,
   "firmware": {
     "name": "Quansheng K5 V3 Admin/User Morse Test",
-    "version": "0.2.0-test",
-    "file": "Quansheng-K5V3-AdminUser-Morse-v0.2.0-test.bin",
+    "version": "0.2.1-test",
+    "file": "Quansheng-K5V3-AdminUser-Morse-v0.2.1-test.bin",
+    "size": 90724,
+    "sha256": "E00D8F3BFEB4C3A351AE66D975F36A552AF83A3883CECE212FCDE8E49BDDF6AA",
     "format": "raw-bin",
     "mcu": "PY32F071",
     "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
     "build_preset": "AdminUser-Morse-Test",
     "tx_prevention": false,
-    "status": "experimental"
+    "status": "experimental",
+    "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
   "upstream": {
     "repository": "https://github.com/jewelux/quansheng-K5-talking-ardf-rx",

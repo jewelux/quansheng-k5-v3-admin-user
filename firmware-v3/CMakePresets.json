@@ -284,7 +284,7 @@
                 "EDITION_STRING": "AdminUser-Morse-Test",
                 "TARGET": "quansheng.AdminUser_Morse_Test_K5v3_K1",
                 "AUTHOR_STRING_2": "LX1WJ-DO9RE",
-                "VERSION_STRING_2": "v0.2.0-test"
+                "VERSION_STRING_2": "v0.2.1-test"
             }
         },
         {
@@ -294,7 +294,7 @@
                 "ENABLE_PREVENT_TX": true,
                 "EDITION_STRING": "AdminUser-Morse-RXOnly",
                 "TARGET": "quansheng.AdminUser_Morse_RXOnly_K5v3_K1",
-                "VERSION_STRING_2": "v0.2.0-rx"
+                "VERSION_STRING_2": "v0.2.1-rx"
             }
         }
     ],

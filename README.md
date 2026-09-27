@@ -31,7 +31,11 @@ direct `firmwareURL` link format.
 
 ## Build
 
-Required tools: CMake, Ninja and the `arm-none-eabi` GCC toolchain.
+Required tools: CMake, Ninja and the official Arm GNU Toolchain
+**13.3.Rel1** (`arm-none-eabi-gcc 13.3.1`). This version is pinned deliberately:
+the locally tested MSYS2 GCC 13.4.0 produced an image which remained stuck on
+the welcome screen, while Richard's clean source built with 13.3.Rel1 works on
+the target radio.
 
 ```sh
 cmake --preset AdminUser-Morse-Test firmware-v3

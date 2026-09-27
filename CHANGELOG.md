@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1-test
+
+- Build with the upstream-pinned official Arm GNU Toolchain 13.3.Rel1.
+- Supersede the non-working 0.2.0 binary built with MSYS2 GCC 13.4.0.
+- Keep the Admin/User behaviour unchanged and correct the missing Morse
+  declaration for saving the accessibility mode.
+
 ## 0.2.0-test
 
 - Rebase the Admin/User build configuration on Richard's hardware-proven
