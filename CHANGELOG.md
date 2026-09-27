@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3-test
+
+- Bypass the interrupt-driven welcome-screen countdown in Admin/User builds
+  and enter the main application loop immediately.
+- This isolates the persistent on-device freeze reported with 0.1.1 and
+  0.1.2 from keyboard and SAM functionality.
+
 ## 0.1.2-test
 
 - Remove the early SAM mode announcement that could block before the main

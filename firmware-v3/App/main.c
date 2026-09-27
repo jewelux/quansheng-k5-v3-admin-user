@@ -237,6 +237,13 @@ void Main(void)
 
         BACKLIGHT_TurnOn();
 
+#ifdef ENABLE_ADMIN_USER_MODE
+        // Do not depend on the interrupt-driven welcome countdown in this
+        // build.  Continue directly into the application loop after drawing
+        // the diagnostic/version screen once.
+        boot_counter_10ms = 0;
+#endif
+
 #ifdef ENABLE_FEAT_F4HWN
         if (gEeprom.POWER_ON_DISPLAY_MODE != POWER_ON_DISPLAY_MODE_NONE && gEeprom.POWER_ON_DISPLAY_MODE != POWER_ON_DISPLAY_MODE_SOUND)
 #else
