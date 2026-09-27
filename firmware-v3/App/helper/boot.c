@@ -38,8 +38,17 @@ BOOT_Mode_t BOOT_GetMode(void)
 #ifdef ENABLE_ADMIN_USER_MODE
     // Map held MENU to Richard's existing F_LOCK boot mode.  All subsequent
     // key-release handling and menu startup remain in the upstream path.
+    //
+    // Held MENU is the only administrator entry.  Richard's other power-on
+    // combinations (PTT + SIDE1 for F_LOCK, PTT + secret key for Rescue Ops
+    // menu lock) would otherwise offer an undocumented second way into the
+    // administrator interface or could lock the administrator out.
     if (KEYBOARD_Poll() == KEY_MENU)
         return BOOT_MODE_F_LOCK;
+
+    (void)i;
+    (void)Keys;
+    return BOOT_MODE_NORMAL;
 #endif
 
     for (i = 0; i < 2; i++)

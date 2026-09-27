@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.5-rxonly-test (source only; release binary not yet built)
+
+- Make held `MENU` the only administrator entry. Richard's `PTT` + `SIDE1`
+  power-on combination no longer opens the administrator interface.
+- Keep the user-mode key filter active even when ARDF has been switched off
+  in the administrator menu; PTT is then refused as well.
+- Disable Rescue Ops in both Admin/User presets so its menu lock cannot block
+  the held-`MENU` administrator entry.
+- Disable the UART BK4829 register read/write commands in the RX-only preset,
+  which could otherwise bypass every software TX guard from a connected PC.
+- Restore receiver audio when a cancelled voice clip falls back to Morse.
+- Declare `SETTINGS_SaveAccessibilityMode()` for Morse-only builds.
+- Fix the README build commands and upload the RX-only CI artifact.
+
 ## 0.3.4-rxonly-test
 
 - Stop an older asynchronous voice clip before announcing the newly selected

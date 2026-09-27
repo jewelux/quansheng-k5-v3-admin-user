@@ -671,6 +671,14 @@ void MENU_PlayMorseForCurrentItem(void)
             AUDIO_SetVoiceID(0, vid);
             if (AUDIO_PlaySingleVoice(false))
                 return;
+
+            /* The cancelled clip may have muted receiver audio.  Its normal
+               end-of-clip restore no longer runs, so restore it here before
+               the Morse fallback. */
+            if (FUNCTION_IsRx())
+                RADIO_SetModulation(gRxVfo->Modulation);
+            if (!gEnableSpeaker)
+                AUDIO_AudioPathOff();
         }
         // Fallback to Morse if no voice ID or no usable sample was found.
     }

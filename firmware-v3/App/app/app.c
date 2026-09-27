@@ -1952,14 +1952,16 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 
 #if defined(ENABLE_ARDF) && defined(ENABLE_ADMIN_USER_MODE)
     if (!gF_LOCK &&
-        gSetting_ARDFEnable &&
-        Key != KEY_PTT &&
         Key != KEY_UP &&
-        Key != KEY_DOWN)
+        Key != KEY_DOWN &&
+        !(Key == KEY_PTT && gSetting_ARDFEnable))
     {
         // Protected user interface: keep Richard's ARDF gain control on the
         // arrows and his audible signal snapshot on PTT.  The complete key
         // handling remains available after the held-MENU administrator boot.
+        // The protection applies even if ARDF was switched off in the
+        // administrator menu; PTT is then refused as well, so a normal boot
+        // can never fall back to the unrestricted radio interface.
         if (bKeyPressed && !bKeyHeld)
             AUDIO_PlayBeep(BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL);
 

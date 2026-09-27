@@ -11,7 +11,11 @@ removing menu entries or audio code:
 - hold `MENU` while switching on: complete administrator interface;
 - user interface: `UP`/`DOWN` adjust ARDF gain;
 - user interface: `PTT` keeps Richard's acoustic ARDF snapshot action;
-- other configuration keys are rejected with a low double beep.
+- other configuration keys are rejected with a low double beep;
+- the protection also applies if ARDF is switched off in the administrator
+  menu (PTT is then refused too);
+- held `MENU` is the only administrator entry: Richard's `PTT` + `SIDE1`
+  power-on combination and the Rescue Ops menu lock are disabled.
 
 ## Development status
 
@@ -53,7 +57,8 @@ the welcome screen, while Richard's clean source built with 13.3.Rel1 works on
 the target radio.
 
 ```sh
-cmake --preset AdminUser-Morse-RXOnly firmware-v3
+cd firmware-v3
+cmake --preset AdminUser-Morse-RXOnly
 cmake --build --preset AdminUser-Morse-RXOnly
 ```
 
