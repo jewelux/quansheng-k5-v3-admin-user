@@ -46,7 +46,6 @@
 #include "driver/backlight.h"
 #include "driver/bk4819.h"
 #include "driver/gpio.h"
-#include "driver/keyboard.h"
 #include "driver/system.h"
 #include "driver/systick.h"
 #include "driver/py25q16.h"
@@ -105,23 +104,6 @@ void Main(void)
     SETTINGS_InitEEPROM();
 
 #ifdef ENABLE_ARDF
-#ifdef ENABLE_ADMIN_USER_MODE
-    // Sample MENU over 100 ms after the board and settings initialization.
-    // A single scan immediately after BOARD_Init is too early on real radios.
-    uint8_t menu_samples = 0;
-    for (uint8_t i = 0; i < 5; i++)
-    {
-        if (KEYBOARD_Poll() == KEY_MENU)
-            menu_samples++;
-        SYSTEM_DelayMs(20);
-    }
-    gARDFAdminMode = (menu_samples >= 3);
-
-    // Normal boot is always the protected ARDF receiver interface.  Admin
-    // boot keeps the persisted setting so Richard's full UI can configure it.
-    if (!gARDFAdminMode)
-        gSetting_ARDFEnable = true;
-#endif
     ARDF_init();
 #endif
 

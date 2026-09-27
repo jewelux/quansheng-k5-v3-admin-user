@@ -35,6 +35,13 @@ BOOT_Mode_t BOOT_GetMode(void)
     unsigned int i;
     KEY_Code_t   Keys[2];
 
+#ifdef ENABLE_ADMIN_USER_MODE
+    // Map held MENU to Richard's existing F_LOCK boot mode.  All subsequent
+    // key-release handling and menu startup remain in the upstream path.
+    if (KEYBOARD_Poll() == KEY_MENU)
+        return BOOT_MODE_F_LOCK;
+#endif
+
     for (i = 0; i < 2; i++)
     {
         if (!GPIO_IsPttPressed())

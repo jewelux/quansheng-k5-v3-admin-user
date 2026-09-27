@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.2.3-entry-test
+
+- Hardware-tested successfully: normal boot, `UP`, `DOWN`, menu and audible
+  test-fox reception work.
+- Return to Richard's behaviour for normal operation.
+- Retain only one Admin/User change: held `MENU` maps to Richard's existing
+  `BOOT_MODE_F_LOCK` path.
+- Temporarily remove user-key filtering, forced ARDF mode, and modified arrow
+  handling so the administrator entry can be tested in isolation.
+- Shorten the startup strings to fit the unbounded 128-pixel welcome-screen
+  renderer; the earlier long strings wrote beyond the framebuffer.
+
+## 0.2.2-test
+
+- Remove Admin/User keypad polling and ARDF forcing from the early startup
+  path after hardware testing showed that 0.2.1 still stopped on the welcome
+  screen.
+- Detect held `MENU` inside Richard's existing late boot-mode stage.
+- Reuse the existing boot-lifetime `gF_LOCK` flag instead of adding another
+  global variable.
+
 ## 0.2.1-test
 
 - Build with the upstream-pinned official Arm GNU Toolchain 13.3.Rel1.

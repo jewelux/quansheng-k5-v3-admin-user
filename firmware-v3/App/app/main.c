@@ -1081,6 +1081,10 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
 
 static void MAIN_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 {
+    if (!gEeprom.SET_NAV) {
+        Direction = -Direction;
+    }
+
 #ifdef ENABLE_ARDF
 
     if ( gSetting_ARDFEnable && bKeyPressed )
@@ -1105,15 +1109,6 @@ static void MAIN_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 
         }
 
-#ifdef ENABLE_ADMIN_USER_MODE
-        // ARDF gain follows the physical arrows in both UI modes regardless
-        // of the general menu-navigation preference.
-        Direction = (Direction >= 0) ? 1 : -1;
-#else
-        if (!gEeprom.SET_NAV)
-            Direction = -Direction;
-#endif
-
         // ARDF: adjust manual gain
 
         if ( Direction == 1 )
@@ -1135,10 +1130,6 @@ static void MAIN_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
     }
 
 #endif
-
-    if (!gEeprom.SET_NAV) {
-        Direction = -Direction;
-    }
 
 #ifdef ENABLE_FEAT_F4HWN // Set Squelch F + UP or Down
     if(gWasFKeyPressed) {

@@ -1950,33 +1950,6 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
     if (gEeprom.AUTO_KEYPAD_LOCK)
         gKeyLockCountdown = gEeprom.AUTO_KEYPAD_LOCK * 30;     // 15 seconds step
 
-#if defined(ENABLE_ARDF) && defined(ENABLE_ADMIN_USER_MODE)
-    if (!gARDFAdminMode &&
-        gSetting_ARDFEnable &&
-        Key != KEY_PTT &&
-        Key != KEY_UP &&
-        Key != KEY_DOWN)
-    {
-        // Protected user interface: retain the blind level snapshot on PTT
-        // and direct ARDF gain control on UP/DOWN.  Richard's complete menu,
-        // frequency entry and configuration keys remain available in admin
-        // mode and are merely unreachable here; their code is not removed.
-        if (bKeyPressed && !bKeyHeld)
-        {
-            if (Key == KEY_MENU)
-            {
-                gKeypadLocked  = 4;
-                gUpdateDisplay = true;
-            }
-            AUDIO_PlayBeep(BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL);
-        }
-
-        gWasFKeyPressed = false;
-        gInputBoxIndex  = 0;
-        return;
-    }
-#endif
-
     if (!bKeyPressed) { // key released
         if (flagSaveVfo) {
             SETTINGS_SaveVfoIndices();

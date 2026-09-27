@@ -169,9 +169,6 @@ extern bool                  gSetting_ScrambleEnable;
 
 #ifdef ENABLE_ARDF
 extern bool                  gSetting_ARDFEnable;
-#ifdef ENABLE_ADMIN_USER_MODE
-extern bool                  gARDFAdminMode;
-#endif
 #endif
 #if defined(ENABLE_ARDF) || defined(ENABLE_MORSE)
 extern uint8_t               gMorseSpeedWpm;
