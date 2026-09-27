@@ -15,16 +15,18 @@ removing menu entries or audio code:
 
 ## Development status
 
-The current development artifact is `v0.3.3-rxonly-test`. It combines
+The current development artifact is `v0.3.4-rxonly-test`. It combines
 multi-layer software TX prevention with Morse and Richard's stored voice-sample
-system. The new image builds successfully but still requires target-radio
+system. Menu voice playback now replaces an older asynchronous prompt safely
+and falls back to Morse if a stored sample cannot be loaded. The new image
+builds successfully but still requires target-radio
 startup, voice-sample, acoustic-regression and RF-output tests. Previous test
 images remain in `online-flasher/archive/`.
 
 Earlier Admin/User images froze on the welcome screen because their combined
 author/version text exceeded the width assumed by Richard's unbounded small-text
 renderer and overwrote the framebuffer. Development builds therefore use the
-short on-screen identifiers: `DO9RE-LX1WJ` and `v0.33`. This keeps both
+short on-screen identifiers: `DO9RE-LX1WJ` and `v0.34`. This keeps both
 contributors together on the first line without recreating the framebuffer
 overflow.
 

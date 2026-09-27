@@ -315,7 +315,7 @@ static bool LoadVoiceClip(uint8_t VoiceID)
     } Info;
     PY25Q16_ReadBuffer(Addr + 8 * VoiceID, &Info, 8);
 
-    if (Info.Offset > 0x0b0000 || Info.Size > 0x019000)
+    if (Info.Size == 0 || Info.Offset > 0x0b0000 || Info.Size > 0x019000)
     {
         return false;
     }
@@ -358,7 +358,27 @@ static void LoadVoiceSamples()
     gVoiceBufLen++;
 }
 
-void AUDIO_PlaySingleVoice(bool bFlag)
+void AUDIO_CancelVoice(void)
+{
+    /* Menu navigation may replace a clip while DMA is still consuming the
+       previous one.  Stop the producer and consumer before resetting their
+       shared indices, otherwise the DMA IRQ can consume stale buffers and the
+       newly selected menu item is occasionally silent. */
+    VOICE_Stop();
+
+    gVoiceBufReadIndex  = 0;
+    gVoiceBufWriteIndex = 0;
+    gVoiceBufLen        = 0;
+    VoiceClipState.Addr = 0;
+    VoiceClipState.Size = 0;
+
+    gVoiceReadIndex                = 0;
+    gVoiceWriteIndex               = 0;
+    gCountdownToPlayNextVoice_10ms = 0;
+    gFlagPlayQueuedVoice           = false;
+}
+
+bool AUDIO_PlaySingleVoice(bool bFlag)
 {
     uint8_t VoiceID;
     uint32_t Delay;
@@ -420,19 +440,20 @@ void AUDIO_PlaySingleVoice(bool bFlag)
                 gVoxResumeCountdown = 80;
             #endif
 
-            return;
+            return true;
         }
 
         gVoiceReadIndex                = 1;
         gCountdownToPlayNextVoice_10ms = Delay;
         gFlagPlayQueuedVoice           = false;
 
-        return;
+        return true;
     }
 
 Bailout:
     gVoiceReadIndex  = 0;
     gVoiceWriteIndex = 0;
+    return false;
 }
 
 void AUDIO_SetVoiceID(uint8_t Index, VOICE_ID_t VoiceID)

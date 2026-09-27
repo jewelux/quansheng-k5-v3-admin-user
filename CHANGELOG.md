@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.4-rxonly-test
+
+- Stop an older asynchronous voice clip before announcing the newly selected
+  menu item, preventing stale DMA buffers from causing sporadic silence.
+- Discard a pending confirmation prompt when a menu announcement takes
+  priority, so it cannot overwrite the selected item.
+- Fall back to Morse when a mapped stored-voice sample is missing or invalid.
+- Retain the `DO9RE-LX1WJ` credit, Admin/User separation and RX-only guards.
+
 ## 0.3.3-rxonly-test
 
 - Refresh the menu display immediately after a short arrow press interrupts

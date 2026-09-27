@@ -216,7 +216,8 @@ void AUDIO_PlayBeep(BEEP_Type_t Beep);
     extern volatile bool     gFlagPlayQueuedVoice;
     extern VOICE_ID_t        gAnotherVoiceID;
     
-    void    AUDIO_PlaySingleVoice(bool bFlag);
+    bool    AUDIO_PlaySingleVoice(bool bFlag);
+    void    AUDIO_CancelVoice(void);
     void    AUDIO_SetVoiceID(uint8_t Index, VOICE_ID_t VoiceID);
     uint8_t AUDIO_SetDigitVoice(uint8_t Index, uint16_t Value);
     void    AUDIO_PlayQueuedVoice(void);

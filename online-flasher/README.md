@@ -2,7 +2,7 @@
 
 ## Select exactly this file
 
-`Quansheng-K5V3-AdminUser-MorseVoice-v0.3.3-rxonly-test.bin`
+`Quansheng-K5V3-AdminUser-MorseVoice-v0.3.4-rxonly-test.bin`
 
 It is a raw PY32F071 V3/K1 firmware image. Do **not** rename or convert it to a
 V1 `.packed.bin` image.
@@ -27,7 +27,7 @@ After the prepared repository is published as
 `jewelux/quansheng-k5-v3-admin-user`, UVTools2 can preload the raw GitHub file:
 
 ```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-MorseVoice-v0.3.3-rxonly-test.bin
+https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-MorseVoice-v0.3.4-rxonly-test.bin
 ```
 
 ## Test warning
@@ -36,7 +36,9 @@ This `-rxonly-test` image combines the protected normal-boot keys and the tested
 held-`MENU` administrator entry with multi-layer software TX prevention. Morse
 and Richard's stored voice-sample system are compiled in; choose `Morse` or
 `Voice` under `Access`. The separate `Voice` menu controls stored prompts with
-`Off`, `Chinese` and `English`. The ARDF PTT snapshot and compass actions remain
+`Off`, `Chinese` and `English`. A newly selected menu voice now replaces an
+older clip, with Morse as the fallback for a missing stored sample. The ARDF
+PTT snapshot and compass actions remain
 compiled in because they run before the normal radio transmit path.
 
 The image has built successfully but has not yet passed the target-radio

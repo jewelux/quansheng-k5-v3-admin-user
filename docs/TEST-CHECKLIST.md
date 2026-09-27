@@ -20,6 +20,9 @@ before each test.
 - 2026-09-27, `v0.3.3-rxonly-test`: immediate display refresh after a short
   Morse-interrupting arrow press and slower held-arrow scrolling. Hardware
   testing is pending.
+- 2026-09-27, `v0.3.4-rxonly-test`: deterministic replacement of asynchronous
+  menu voice clips plus Morse fallback for missing samples. Hardware testing
+  is pending.
 
 ## Admin/User separation
 
@@ -94,3 +97,14 @@ RF power measurement; a successful compile is not sufficient certification.
 - Hold an arrow: scrolling should begin after about 450 ms and advance roughly
   every 350 ms, slowly enough to read each label.
 - Release the arrow and confirm only the final item is announced.
+
+## Voice replacement v0.3.4 test
+
+- Set `Access: Voice` and `Voice: English`.
+- Scroll slowly from `Reset` through `Step`; every selected item must produce
+  either its English sample or a Morse fallback, never silence.
+- Repeat with quick alternating `UP` and `DOWN` presses while a sample is still
+  playing; the previous sample must stop and the final selection must be heard.
+- Immediately after confirming an Access or Voice value, navigate again and
+  confirm that the queued confirmation does not overwrite the menu name.
+- Switch back to `Access: Morse` and repeat a short navigation regression.

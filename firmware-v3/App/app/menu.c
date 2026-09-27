@@ -664,11 +664,15 @@ void MENU_PlayMorseForCurrentItem(void)
         VOICE_ID_t vid = MENU_GetVoiceIDForCurrentItem();
         if (vid != VOICE_ID_INVALID)
         {
+            /* Voice playback is asynchronous.  A pending confirmation or the
+               previous menu clip must not overwrite this selection. */
+            gAnotherVoiceID = VOICE_ID_INVALID;
+            AUDIO_CancelVoice();
             AUDIO_SetVoiceID(0, vid);
-            AUDIO_PlaySingleVoice(false);
-            return;
+            if (AUDIO_PlaySingleVoice(false))
+                return;
         }
-        // Fallback to Morse if no voice ID found
+        // Fallback to Morse if no voice ID or no usable sample was found.
     }
 #endif
 
