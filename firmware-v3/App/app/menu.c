@@ -878,7 +878,37 @@ void MENU_PlayMorseForCurrentItem(void)
         }
 
         // Wait for the navigation key to be released before re-announcing
-        MENU_WaitForKeyRelease();
+        // A held key is treated as a sighted-user fast-scroll gesture: after
+        // a short delay, move repeatedly without restarting Morse for every
+        // intermediate item.  On release, the loop announces only the final
+        // item, preserving useful feedback for blind users.
+        {
+            const int8_t repeat_dir = (gMorseAbortKey == KEY_UP) ? 1 : -1;
+            uint16_t repeat_delay_ms = 280U;
+            while (KEYBOARD_Poll() == gMorseAbortKey)
+            {
+                SYSTEM_DelayMs(10);
+                if (repeat_delay_ms > 10U)
+                {
+                    repeat_delay_ms -= 10U;
+                    continue;
+                }
+
+                if (!gIsInSubMenu)
+                {
+                    gMenuCursor = NUMBER_AddWithWraparound(
+                        gMenuCursor, -repeat_dir, 0, gMenuListCount - 1);
+                    gFlagRefreshSetting = true;
+                }
+                else
+                {
+                    MENU_ClampSelection(repeat_dir);
+                }
+                gRequestDisplayScreen = DISPLAY_MENU;
+                UI_DisplayMenu();
+                repeat_delay_ms = 100U;
+            }
+        }
 
         gMorseAbortKey = KEY_INVALID;
     }

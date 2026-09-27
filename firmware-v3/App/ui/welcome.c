@@ -211,7 +211,11 @@ void UI_DisplayWelcome(void)
             ST7565_BlitStatusLine();
         #endif
 
-        sprintf(WelcomeString3, "%s Edition", Edition);
+        #ifdef ENABLE_ADMIN_USER_MODE
+        snprintf(WelcomeString3, sizeof(WelcomeString3), "%s", Edition);
+        #else
+        snprintf(WelcomeString3, sizeof(WelcomeString3), "%s Edition", Edition);
+        #endif
         UI_PrintStringSmallNormal(WelcomeString3, 0, 127, 6);
 
 #else

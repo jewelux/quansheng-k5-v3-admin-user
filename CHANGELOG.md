@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.2-rxonly-test
+
+- Show the shared credit `DO9RE-LX1WJ` on the first firmware line and the
+  abbreviated `v0.32` on the line below.
+- Preserve the safe two-line welcome layout that avoids framebuffer overflow.
+- Let `UP` or `DOWN` interrupt a running Morse announcement immediately.
+- Add held-arrow fast scrolling: after 280 ms, move every 100 ms without
+  announcing intermediate entries; announce only the final entry on release.
+- Retain Morse, stored voice samples, Admin/User mode and all RX-only guards.
+
 ## 0.3.1-rxonly-test
 
 - Restore DO9RE visibly on the welcome screen as `DO9RE-RX Edition`, on a

@@ -294,9 +294,9 @@
                 "ENABLE_PREVENT_TX": true,
                 "ENABLE_VOICE": true,
                 "ENABLE_VOICE_PROMPTS": true,
-                "EDITION_STRING": "DO9RE-RX",
+                "EDITION_STRING": "RX",
                 "TARGET": "quansheng.AU_RX_K5v3_K1",
-                "VERSION_STRING_2": "v0.31"
+                "VERSION_STRING_2": "v0.32"
             }
         }
     ],

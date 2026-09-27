@@ -14,6 +14,9 @@ before each test.
 - 2026-09-27, `v0.3.1-rxonly-test`: Morse plus stored voice samples and the
   two-line LX1WJ/DO9RE attribution built with GCC 13.3.1. Hardware testing is
   pending.
+- 2026-09-27, `v0.3.2-rxonly-test`: shared `DO9RE-LX1WJ` credit plus
+  interruptible Morse and held-arrow fast scrolling built with GCC 13.3.1.
+  Hardware testing is pending.
 
 ## Admin/User separation
 
@@ -70,3 +73,13 @@ RF power measurement; a successful compile is not sufficient certification.
 - Confirm an unmapped voice item falls back to Morse.
 - Repeat PTT snapshot, held-PTT compass and RF-output checks in both access
   modes.
+
+## Fast menu navigation v0.3.2 test
+
+- Confirm the first firmware line is `DO9RE-LX1WJ` and the next is `v0.32`.
+- During Morse playback, tap `UP` and `DOWN`; the tone must stop immediately
+  and the adjacent entry must be selected.
+- Hold `UP` or `DOWN`; after a short delay the display must scroll quickly
+  without speaking every intermediate entry.
+- Release the arrow; only the final selected entry should be announced.
+- Repeat inside a submenu and confirm values change in the correct direction.
