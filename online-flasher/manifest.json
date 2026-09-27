@@ -2,25 +2,32 @@
   "schema_version": 1,
   "firmware": {
     "name": "Quansheng K5 V3 Admin User Morse Voice RX-Only Test",
-    "version": "0.3.4-rxonly-test",
-    "file": "Quansheng-K5V3-AdminUser-MorseVoice-v0.3.4-rxonly-test.bin",
-    "size": 93084,
-    "sha256": "A54533127349DD2C2A724CD6478F93E1570B4929419BEDE5BD00BF6F4B2F261D",
+    "version": "0.3.5-rxonly-test",
+    "file": "Quansheng-K5V3-AdminUser-MorseVoice-v0.3.5-rxonly-test.bin",
+    "size": 91968,
+    "sha256": "8EE6F2281348781750CCDB2FD9FD01EAF1F37CCAD4147220EBEA27331DE7551B",
     "format": "raw-bin",
     "mcu": "PY32F071",
-    "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
+    "hardware": [
+      "Quansheng UV-K5 V3",
+      "Quansheng UV-K1"
+    ],
     "build_preset": "AdminUser-Morse-RXOnly",
     "tx_prevention": true,
-    "accessibility_modes": ["Morse", "Voice samples"],
+    "accessibility_modes": [
+      "Morse",
+      "Voice samples"
+    ],
     "tx_prevention_layers": [
       "frequency validation rejects every TX frequency",
       "RADIO_PrepareTX refuses every transmit request",
       "FUNCTION_Select refuses FUNCTION_TRANSMIT",
       "RADIO_SetTxParameters returns before TX register setup",
-      "RF driver forces PA bias and PA enable off"
+      "RF driver forces PA bias and PA enable off",
+      "UART BK4829 register read/write commands disabled"
     ],
     "status": "experimental",
-    "hardware_test": "not yet tested on target hardware; deterministic voice replacement, Morse fallback, RF power and acoustic regression checks required",
+    "hardware_test": "not yet tested on target hardware; single MENU admin entry, protection with ARDF off, voice fallback, RF power and acoustic regression checks required",
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
   "upstream": {
