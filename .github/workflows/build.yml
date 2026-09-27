@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -57,3 +59,18 @@ jobs:
           name: Quansheng-K5V3-AdminUser-MorseVoice-rxonly
           path: firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin
           if-no-files-found: error
+
+      - name: Publish RX-only firmware as pre-release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          FILE="Quansheng-K5V3-AdminUser-MorseVoice-v${VERSION}.bin"
+          cp firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin "$FILE"
+          sha256sum "$FILE" > "$FILE.sha256"
+          gh release create "$GITHUB_REF_NAME" "$FILE" "$FILE.sha256" \
+            --repo "$GITHUB_REPOSITORY" \
+            --prerelease \
+            --title "$GITHUB_REF_NAME" \
+            --notes "Experimental test build from the pinned Arm GNU Toolchain 13.3.Rel1. Not yet hardware-tested. See CHANGELOG.md and docs/TEST-CHECKLIST.md."
