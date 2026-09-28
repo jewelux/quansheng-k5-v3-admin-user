@@ -14,7 +14,7 @@
 - Declare `SETTINGS_SaveAccessibilityMode()` for Morse-only builds.
 - Fix the README build commands and upload the RX-only CI artifact.
 
-## V3/K1 0.3.8-rxonly-experimental (feature/v3-admin-sam only)
+## V3/K1 0.3.9-rxonly-experimental (feature/v3-admin-sam only)
 
 - Add a separate `AdminUser-SAM-RXOnly` preset without changing the tested
   `AdminUser-Morse-RXOnly` preset or its v0.3.5 artifact.
@@ -23,12 +23,15 @@
   speech path.
 - Add `OFF` to the `Access` menu for sighted users. It is appended after Morse
   and SAM so existing saved accessibility settings keep their meaning.
+- Enforce `Access = OFF` at both audio backends: direct ARDF SAM announcements
+  are now suppressed and the menu no longer treats every non-SAM mode as
+  Morse.
 - Disable FM radio, spectrum, VOX, games, screenshots and regional channel
   helpers in this experimental preset, matching Richard's lean SAM preset and
   leaving all ARDF receiver functions intact.
 - Retain Admin/User separation, held-`MENU` administrator entry and all
   RX-only guards, including disabled UART BK4829 register access.
-- Build successfully with GCC 13.3.1: 92520 bytes flash and 14208 of 16384
+- Build successfully with GCC 13.3.1: 92540 bytes flash and 14208 of 16384
   bytes RAM including the linker's reserved 1 KiB stack, leaving 2176 bytes
   additional RAM headroom.
 

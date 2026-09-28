@@ -587,6 +587,11 @@ KEY_Code_t gSamAbortKey = KEY_INVALID;
 
 bool AUDIO_PlaySAMText(const char *text)
 {
+    // Enforce the selected accessibility mode at the playback boundary so
+    // callers cannot accidentally speak while Access is Morse or OFF.
+    if (gAccessibilityMode != ACCESS_MODE_SAM)
+        return false;
+
     if (!text || !*text)
         return false;
 

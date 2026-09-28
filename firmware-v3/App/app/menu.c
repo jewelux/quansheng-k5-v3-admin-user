@@ -639,6 +639,11 @@ void MENU_PlayMorseForCurrentItem(void)
 {
     char buf[48];
 
+    // OFF must silence both engines. Previously every non-SAM mode fell
+    // through to the Morse implementation below.
+    if (gAccessibilityMode == ACCESS_MODE_OFF)
+        return;
+
     // Wait for the triggering key (UP/DOWN) to be released
     MENU_WaitForKeyRelease();
 
