@@ -253,6 +253,7 @@ const char gSubMenu_ACCESS[ACCESS_MODE_COUNT][7] =
 #ifdef ENABLE_SAM_TTS
     "SAM",
 #endif
+    "OFF",
 };
 #endif
 

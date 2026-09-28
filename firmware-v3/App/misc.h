@@ -188,6 +188,8 @@ enum {
 #ifdef ENABLE_SAM_TTS
     ACCESS_MODE_SAM,
 #endif
+    // Keep OFF last so existing EEPROM values for Morse/SAM remain valid.
+    ACCESS_MODE_OFF,
     ACCESS_MODE_COUNT
 };
 #endif
