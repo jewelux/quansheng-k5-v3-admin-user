@@ -71,7 +71,7 @@ void UI_DisplayWelcome(void)
 		UI_PrintString(WelcomeString1, 0, 127, 2, 10);
 		/* Keep the shared credit and V1 identity on bounded, separate lines. */
 		UI_PrintStringSmallNormal("DO9RE-LX1WJ", 0, 128, 5);
-		UI_PrintStringSmallNormal("K5V1 v1.00", 0, 128, 6);
+		UI_PrintStringSmallNormal("K5V1 v1.01", 0, 128, 6);
 
 		ST7565_BlitStatusLine();  // blank status line
 		ST7565_BlitFullScreen();

@@ -817,13 +817,18 @@ void UI_DisplayMenu(void)
 
 		case MENU_BATCAL:
 		{
-			const uint16_t vol = (uint32_t)gBatteryVoltageAverage * gBatteryCalibration[3] / gSubMenuSelection;
+			const uint16_t calibration = (gSubMenuSelection >= 1600 && gSubMenuSelection <= 2200)
+				? (uint16_t)gSubMenuSelection
+				: 1900;
+			const uint16_t vol = (uint32_t)gBatteryVoltageAverage * gBatteryCalibration[3] / calibration;
 			sprintf(String, "%u.%02uV\n%u", vol / 100, vol % 100, gSubMenuSelection);
 			break;
 		}
 
 		case MENU_BATTYP:
-			strcpy(String, gSubMenu_BATTYP[gSubMenuSelection]);
+			strcpy(String, gSubMenu_BATTYP[(gSubMenuSelection >= 0 && gSubMenuSelection < (int32_t)ARRAY_SIZE(gSubMenu_BATTYP))
+				? gSubMenuSelection
+				: 0]);
 			break;
 
 		case MENU_F1SHRT:

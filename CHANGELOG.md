@@ -14,6 +14,13 @@
 - Declare `SETTINGS_SaveAccessibilityMode()` for Morse-only builds.
 - Fix the README build commands and upload the RX-only CI artifact.
 
+## K5 V1 1.0.1-rxonly-test
+
+- Clamp every menu setting with declared limits before the display uses it.
+- Protect `BatTyp` against invalid EEPROM array indexes.
+- Protect `BatCal` against invalid calibration values and division by zero.
+- Replace the faulty V1 1.0.0 online-flasher artifact.
+
 ## K5 V1 1.0.0-rxonly-test
 
 - Add a separate DP32G030 firmware tree for the original Quansheng UV-K5 V1.

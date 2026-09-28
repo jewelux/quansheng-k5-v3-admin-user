@@ -16,7 +16,7 @@ It must not be flashed onto a V1/DP32G030, V2/PY32F030 or GD32 model.
 
 ## K5 V1: select exactly this file
 
-`Quansheng-K5V1-AdminUser-MorseVoice-v1.0.0-rxonly-test.packed.bin`
+`Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin`
 
 This is the packed DP32G030 image for the original Quansheng UV-K5 V1 only.
 Do **not** flash it onto a V3, K1, V2 or GD32 radio. Do not select the unpacked
@@ -43,7 +43,7 @@ https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/
 V1 direct link:
 
 ```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V1-AdminUser-MorseVoice-v1.0.0-rxonly-test.packed.bin
+https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin
 ```
 
 ## Test warning
@@ -64,6 +64,10 @@ successfully but has not yet passed the target-radio
 acoustic regression or RF power measurements. Treat it as experimental until
 those tests are recorded. Software TX prevention is not a hardware removal of
 the transmitter and is not a legal certification.
+
+V1 `1.0.1` also clamps imported or incompatible EEPROM menu values. This fixes
+the grey-screen crash seen when reverse-scrolling from `Step` into the battery
+service entries. The faulty V1 `1.0.0` image has been removed.
 
 The binary is the unchanged GitHub Actions build (Arm GNU Toolchain
 13.3.Rel1) from the `v0.3.5-rxonly-test` pre-release.

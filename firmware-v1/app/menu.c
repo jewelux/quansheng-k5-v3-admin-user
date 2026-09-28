@@ -1568,6 +1568,11 @@ static void MENU_SubMenuReannounce(void)
 
 void MENU_ShowCurrentSetting(void)
 {
+	/* EEPROM contents can originate from stock or unrelated custom firmware.
+	   Start from a deterministic value and clamp every setting for which the
+	   menu declares limits before the UI uses it as an array index. */
+	gSubMenuSelection = 0;
+
 	switch (UI_MENU_GetCurrentMenuId())
 	{
 		case MENU_SQL:
@@ -1777,7 +1782,7 @@ void MENU_ShowCurrentSetting(void)
 
 		case MENU_COMPAND:
 			gSubMenuSelection = gTxVfo->Compander;
-			return;
+			break;
 
 		case MENU_S_LIST:
 			gSubMenuSelection = gEeprom.SCAN_LIST_DEFAULT;
@@ -1809,7 +1814,7 @@ void MENU_ShowCurrentSetting(void)
 
 		case MENU_BAT_TXT:
 			gSubMenuSelection = gSetting_battery_text;
-			return;
+			break;
 
 #ifdef ENABLE_DTMF_CALLING
 		case MENU_D_DCD:
@@ -1895,6 +1900,16 @@ void MENU_ShowCurrentSetting(void)
 
 		default:
 			return;
+	}
+
+	int32_t min;
+	int32_t max;
+	if (MENU_GetLimits(UI_MENU_GetCurrentMenuId(), &min, &max) == 0)
+	{
+		if (gSubMenuSelection < min)
+			gSubMenuSelection = min;
+		else if (gSubMenuSelection > max)
+			gSubMenuSelection = max;
 	}
 }
 
@@ -2359,6 +2374,11 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 		gRequestDisplayScreen = DISPLAY_MENU;
 
 		#ifdef ENABLE_VOICE
+			/* Morse playback forces an immediate render before the main loop
+			   processes gFlagRefreshSetting.  Load and clamp the newly selected
+			   menu value first so that render never sees the previous item's
+			   value as an array index. */
+			MENU_ShowCurrentSetting();
 			MENU_ForceDisplayUpdate();
 			MENU_PlayCurrentMenuVoice();
 
@@ -2376,6 +2396,7 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 				gMenuCursor = NUMBER_AddWithWraparound(gMenuCursor, -Direction, 0, gMenuListCount - 1);
 				gFlagRefreshSetting   = true;
 				gRequestDisplayScreen = DISPLAY_MENU;
+				MENU_ShowCurrentSetting();
 				MENU_ForceDisplayUpdate();
 				MENU_PlayCurrentMenuVoice();
 			}

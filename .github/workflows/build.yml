@@ -85,7 +85,7 @@ jobs:
 
       - name: Build K5 V1 Admin/User RX-only firmware
         working-directory: firmware-v1
-        run: make -j2 ENABLE_LTO=0 AUTHOR_STRING=DO9RE-LX1WJ VERSION_STRING=v1.00
+        run: make -j2 ENABLE_LTO=0 AUTHOR_STRING=DO9RE-LX1WJ VERSION_STRING=v1.01
 
       - name: Upload K5 V1 packed firmware
         uses: actions/upload-artifact@v4

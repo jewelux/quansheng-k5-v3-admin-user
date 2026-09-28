@@ -30,7 +30,7 @@ toolchain and published under Releases, but still requires target-radio
 startup, voice-sample, acoustic-regression and RF-output tests. Previous test
 images remain in `online-flasher/archive/`.
 
-The first V1 port is `v1.0.0-rxonly-test`. It preserves the V1 Morse and stored
+The current V1 port is `v1.0.1-rxonly-test`. It preserves the V1 Morse and stored
 voice code, adds the same normal-user / held-`MENU` administrator split, and
 forces the RF power-amplifier controls off. It is built from the independent
 `firmware-v1/` source tree and must be flashed only as a `.packed.bin` file.
@@ -82,7 +82,7 @@ The V1 uses the DP32G030 Makefile build. LTO is disabled for deterministic
 Windows and CI builds; the resulting image still fits comfortably in flash.
 
 ```sh
-make -C firmware-v1 ENABLE_LTO=0 AUTHOR_STRING=DO9RE-LX1WJ VERSION_STRING=v1.00
+make -C firmware-v1 ENABLE_LTO=0 AUTHOR_STRING=DO9RE-LX1WJ VERSION_STRING=v1.01
 ```
 
 Build output:
