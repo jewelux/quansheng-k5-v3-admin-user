@@ -64,9 +64,10 @@ direct `firmwareURL` link format.
 
 The separate `feature/v3-admin-sam` branch contains an experimental
 `AdminUser-SAM-RXOnly` preset. It adds Richard's SAM text-to-speech alongside
-Morse and stored voice samples while retaining Admin/User and RX-only guards.
+Morse, with stored voice samples deliberately disabled, while retaining
+Admin/User and RX-only guards.
 It does not replace the tested V3 v0.3.5 artifact on `development`. See
-`online-flasher/experimental/README.md` before testing; RAM headroom is small.
+`online-flasher/experimental/README.md` before testing.
 
 ## Build V3 / K1
 
