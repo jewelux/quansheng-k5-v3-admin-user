@@ -34,6 +34,10 @@ The current V1 port is `v1.0.1-rxonly-test`. It preserves the V1 Morse and store
 voice code, adds the same normal-user / held-`MENU` administrator split, and
 forces the RF power-amplifier controls off. It is built from the independent
 `firmware-v1/` source tree and must be flashed only as a `.packed.bin` file.
+An on-device smoke test on 2026-09-28 confirmed administrator startup, stable
+menu scrolling through the formerly crashing battery entries, audible stored
+English prompts and Morse fallback. Full acoustic and RF-output tests remain
+pending. SAM text-to-speech is a V3/K1 feature and is not present in V1.
 
 Earlier Admin/User images froze on the welcome screen because their combined
 author/version text exceeded the width assumed by Richard's unbounded small-text

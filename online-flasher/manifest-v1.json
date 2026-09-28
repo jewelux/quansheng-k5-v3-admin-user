@@ -12,8 +12,8 @@
     "build_target": "quansheng.AdminUser_RX_K5v1.packed.bin",
     "tx_prevention": true,
     "accessibility_modes": ["Morse", "Voice samples"],
-    "status": "experimental",
-    "hardware_test": "not yet tested on target hardware; startup, controls, acoustics and RF output must be checked",
+    "status": "experimental-hardware-smoke-tested",
+    "hardware_test": "K5 V1 smoke test passed 2026-09-28: admin startup, menu navigation, reverse scroll through battery entries, stored English prompts and Morse fallback; full acoustic regression and RF-output measurement remain pending",
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
   "flasher": "https://armel.github.io/uvtools2/"

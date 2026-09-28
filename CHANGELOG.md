@@ -20,6 +20,12 @@
 - Protect `BatTyp` against invalid EEPROM array indexes.
 - Protect `BatCal` against invalid calibration values and division by zero.
 - Replace the faulty V1 1.0.0 online-flasher artifact.
+- Hardware smoke-tested on a K5 V1 on 2026-09-28: administrator startup and
+  menu navigation work, reverse scrolling from `Step` through the battery
+  service entries no longer produces a grey screen, stored English prompts
+  are audible, and entries without a prompt fall back to Morse.
+- Complete key-by-key acoustic regression and measured RF-output verification
+  remain pending.
 
 ## K5 V1 1.0.0-rxonly-test
 

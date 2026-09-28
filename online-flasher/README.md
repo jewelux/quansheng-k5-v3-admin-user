@@ -49,21 +49,21 @@ https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/
 ## Test warning
 
 These `-rxonly-test` images combine the protected normal-boot keys and the tested
-held-`MENU` administrator entry with multi-layer software TX prevention. Held
-`MENU` is the only administrator entry (`PTT` + `SIDE1` no longer opens it),
-and the user protection also applies when ARDF is switched off. Morse
-and Richard's stored voice-sample system are compiled in; choose `Morse` or
-`Voice` under `Access`. The separate `Voice` menu controls stored prompts with
-`Off`, `Chinese` and `English`. A newly selected menu voice now replaces an
-older clip, with Morse as the fallback for a missing stored sample. The ARDF
+held-`MENU` administrator entry with multi-layer software TX prevention. On
+V3/K1, held `MENU` is the only administrator entry (`PTT` + `SIDE1` no longer
+opens it), and the user protection also applies when ARDF is switched off.
+The V3/K1 `Access` setting selects Morse or stored voice samples. On V1,
+available stored English prompts are spoken and entries without a matching
+sample fall back to Morse; V1 does not contain SAM text-to-speech. The ARDF
 PTT snapshot and compass actions remain
 compiled in because they run before the normal radio transmit path.
 
-The V3 image has been exercised on target hardware. The new V1 image has built
-successfully but has not yet passed the target-radio
-acoustic regression or RF power measurements. Treat it as experimental until
-those tests are recorded. Software TX prevention is not a hardware removal of
-the transmitter and is not a legal certification.
+The V3 image has been exercised on target hardware. V1 `1.0.1` passed an
+on-device smoke test on 2026-09-28: administrator startup and scrolling work,
+the battery-menu grey screen did not recur, stored English prompts were heard,
+and unmapped entries fell back to Morse. Complete acoustic regression and RF
+power measurements remain pending. Software TX prevention is not a hardware
+removal of the transmitter and is not a legal certification.
 
 V1 `1.0.1` also clamps imported or incompatible EEPROM menu values. This fixes
 the grey-screen crash seen when reverse-scrolling from `Step` into the battery

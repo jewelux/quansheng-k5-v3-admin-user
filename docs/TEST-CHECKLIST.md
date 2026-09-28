@@ -23,6 +23,14 @@ before each test.
 - 2026-09-27, `v0.3.4-rxonly-test`: deterministic replacement of asynchronous
   menu voice clips plus Morse fallback for missing samples. Hardware testing
   is pending.
+- 2026-09-28, K5 V1 `v1.0.0-rxonly-test`: administrator menu reached, but
+  reverse scrolling from `Step` into the battery service entries produced a
+  grey-screen crash. This artifact was withdrawn.
+- 2026-09-28, K5 V1 `v1.0.1-rxonly-test`: on-device smoke test passed.
+  Administrator startup and menu scrolling work; the previous battery-menu
+  grey screen did not recur. Multiple stored English menu prompts were heard,
+  with Morse between them for entries without a corresponding stored sample.
+  Full acoustic coverage and RF-output measurement remain pending.
 
 ## Admin/User separation
 
@@ -122,3 +130,18 @@ RF power measurement; a successful compile is not sufficient certification.
   Morse must follow and receiver audio must return afterwards.
 - Confirm the BK4829 register commands (0x0601/0x0602) are not answered over
   USB/UART in the RX-only image.
+
+## K5 V1 v1.0.1 test
+
+- **Passed 2026-09-28:** welcome screen advances and administrator menu opens
+  with held `MENU`.
+- **Passed 2026-09-28:** reverse-scroll from `Step` through `Reset`, `BatTyp`
+  and `BatCal`; no grey screen or lock-up was observed after the fix.
+- **Passed 2026-09-28:** stored English menu prompts are audible.
+- **Passed 2026-09-28:** menu entries without a stored English prompt fall
+  back to Morse.
+- Pending: traverse every main-menu item and submenu value in both directions.
+- Pending: verify normal-boot user-mode `UP`, `DOWN` and acoustic PTT actions.
+- Pending: verify administrator settings survive a power cycle.
+- Pending: measure RF output for PTT and every alternative transmit path in
+  both user and administrator boots.
