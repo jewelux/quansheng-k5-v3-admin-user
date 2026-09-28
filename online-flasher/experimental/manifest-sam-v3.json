@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "firmware": {
+    "name": "Quansheng K5 V3 Admin User SAM RX-Only Experimental",
+    "version": "0.3.6-rxonly-experimental",
+    "file": "Quansheng-K5V3-AdminUser-SAM-v0.3.6-rxonly-experimental.bin",
+    "size": 110656,
+    "sha256": "3E9775C1B105A2063E639E88D7F64A5072427CCD6AF3BAF27994A4191E692727",
+    "format": "raw-bin",
+    "mcu": "PY32F071",
+    "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
+    "build_preset": "AdminUser-SAM-RXOnly",
+    "tx_prevention": true,
+    "accessibility_modes": ["Morse", "Voice samples", "SAM text-to-speech"],
+    "ram_used_bytes_including_reserved_stack": 16096,
+    "ram_total_bytes": 16384,
+    "reserved_stack_bytes": 1024,
+    "additional_ram_headroom_bytes": 288,
+    "status": "experimental-not-hardware-tested",
+    "hardware_test": "startup, SAM audio, menu navigation, receiver-audio recovery and RF-output measurement required",
+    "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
+  },
+  "branch": "feature/v3-admin-sam",
+  "flasher": "https://armel.github.io/uvtools2/"
+}

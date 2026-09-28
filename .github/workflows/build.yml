@@ -93,3 +93,18 @@ jobs:
           name: Quansheng-K5V1-AdminUser-MorseVoice-rxonly-test
           path: firmware-v1/quansheng.AdminUser_RX_K5v1.packed.bin
           if-no-files-found: error
+
+      - name: Configure experimental V3 Admin/User SAM RX-only build
+        working-directory: firmware-v3
+        run: cmake --preset AdminUser-SAM-RXOnly
+
+      - name: Build experimental V3 Admin/User SAM RX-only firmware
+        working-directory: firmware-v3
+        run: cmake --build --preset AdminUser-SAM-RXOnly
+
+      - name: Upload experimental V3 Admin/User SAM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Quansheng-K5V3-AdminUser-SAM-rxonly-experimental
+          path: firmware-v3/build/AdminUser-SAM-RXOnly/quansheng.AU_SAM_RX_K5v3_K1.bin
+          if-no-files-found: error

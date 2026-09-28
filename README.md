@@ -60,6 +60,14 @@ The one file selected by UVTools2 is kept in [`online-flasher`](online-flasher/)
 See its README for exact flashing instructions, hardware restrictions and the
 direct `firmwareURL` link format.
 
+## Experimental V3 SAM branch
+
+The separate `feature/v3-admin-sam` branch contains an experimental
+`AdminUser-SAM-RXOnly` preset. It adds Richard's SAM text-to-speech alongside
+Morse and stored voice samples while retaining Admin/User and RX-only guards.
+It does not replace the tested V3 v0.3.5 artifact on `development`. See
+`online-flasher/experimental/README.md` before testing; RAM headroom is small.
+
 ## Build V3 / K1
 
 Required tools: CMake, Ninja and the official Arm GNU Toolchain

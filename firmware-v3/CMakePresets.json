@@ -300,6 +300,16 @@
                 "TARGET": "quansheng.AU_RX_K5v3_K1",
                 "VERSION_STRING_2": "v0.35"
             }
+        },
+        {
+            "name": "AdminUser-SAM-RXOnly",
+            "inherits": "AdminUser-Morse-RXOnly",
+            "cacheVariables": {
+                "ENABLE_SAM_TTS": true,
+                "EDITION_STRING": "SAMRX",
+                "TARGET": "quansheng.AU_SAM_RX_K5v3_K1",
+                "VERSION_STRING_2": "v0.36"
+            }
         }
     ],
     "buildPresets": [
@@ -358,6 +368,10 @@
         {
             "name": "AdminUser-Morse-RXOnly",
             "configurePreset": "AdminUser-Morse-RXOnly"
+        },
+        {
+            "name": "AdminUser-SAM-RXOnly",
+            "configurePreset": "AdminUser-SAM-RXOnly"
         }
     ]
 }
