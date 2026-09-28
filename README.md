@@ -1,7 +1,8 @@
-# Quansheng K5 V3 Admin/User ARDF firmware
+# Quansheng K5 Admin/User ARDF firmware
 
 Experimental Admin/User extension of Richard's talking ARDF firmware for the
-Quansheng UV-K5 V3 and UV-K1 (PY32F071).
+Quansheng UV-K5 V3 / UV-K1 (PY32F071) and, in a separate build, the
+original UV-K5 V1 (DP32G030).
 
 The first development stage deliberately preserves Richard's complete menu and
 Richard's proven Morse accessibility path. It adds a protected user interface without
@@ -29,6 +30,11 @@ toolchain and published under Releases, but still requires target-radio
 startup, voice-sample, acoustic-regression and RF-output tests. Previous test
 images remain in `online-flasher/archive/`.
 
+The first V1 port is `v1.0.0-rxonly-test`. It preserves the V1 Morse and stored
+voice code, adds the same normal-user / held-`MENU` administrator split, and
+forces the RF power-amplifier controls off. It is built from the independent
+`firmware-v1/` source tree and must be flashed only as a `.packed.bin` file.
+
 Earlier Admin/User images froze on the welcome screen because their combined
 author/version text exceeded the width assumed by Richard's unbounded small-text
 renderer and overwrote the framebuffer. Development builds therefore use the
@@ -50,7 +56,7 @@ The one file selected by UVTools2 is kept in [`online-flasher`](online-flasher/)
 See its README for exact flashing instructions, hardware restrictions and the
 direct `firmwareURL` link format.
 
-## Build
+## Build V3 / K1
 
 Required tools: CMake, Ninja and the official Arm GNU Toolchain
 **13.3.Rel1** (`arm-none-eabi-gcc 13.3.1`). This version is pinned deliberately:
@@ -68,6 +74,21 @@ Build output:
 
 ```text
 firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin
+```
+
+## Build V1
+
+The V1 uses the DP32G030 Makefile build. LTO is disabled for deterministic
+Windows and CI builds; the resulting image still fits comfortably in flash.
+
+```sh
+make -C firmware-v1 ENABLE_LTO=0 AUTHOR_STRING=DO9RE-LX1WJ VERSION_STRING=v1.00
+```
+
+Build output:
+
+```text
+firmware-v1/quansheng.AdminUser_RX_K5v1.packed.bin
 ```
 
 ## Origin

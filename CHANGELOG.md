@@ -14,6 +14,19 @@
 - Declare `SETTINGS_SaveAccessibilityMode()` for Morse-only builds.
 - Fix the README build commands and upload the RX-only CI artifact.
 
+## K5 V1 1.0.0-rxonly-test
+
+- Add a separate DP32G030 firmware tree for the original Quansheng UV-K5 V1.
+- Normal power-on starts the protected user mode; holding `MENU` during power-on
+  starts the complete administrator menu.
+- Keep `UP`, `DOWN` and the acoustic ARDF PTT action available in user mode.
+- Compile Richard's Morse and stored voice-sample paths with the full menu.
+- Reject transmitter setup and force both PA bias and PA-enable controls off.
+- Show `DO9RE-LX1WJ` and the abbreviated V1 version on the welcome screen.
+- Publish only the required `.packed.bin` artifact for V1 online flashing.
+- Build successfully with Arm GNU Toolchain 13.3.Rel1; target-radio and RF
+  measurements remain required.
+
 ## 0.3.4-rxonly-test
 
 - Stop an older asynchronous voice clip before announcing the newly selected

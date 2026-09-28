@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "firmware": {
+    "name": "Quansheng K5 V1 Admin User Morse Voice RX-Only Test",
+    "version": "1.0.0-rxonly-test",
+    "file": "Quansheng-K5V1-AdminUser-MorseVoice-v1.0.0-rxonly-test.packed.bin",
+    "size": 52002,
+    "sha256": "1E8E858FAA0DCEAF521FCE56EC0CDF7F33D5B50A9B9602C121B24A4A6075EB63",
+    "format": "dp32g030-packed-bin",
+    "mcu": "DP32G030",
+    "hardware": ["Quansheng UV-K5 V1"],
+    "build_target": "quansheng.AdminUser_RX_K5v1.packed.bin",
+    "tx_prevention": true,
+    "accessibility_modes": ["Morse", "Voice samples"],
+    "status": "experimental",
+    "hardware_test": "not yet tested on target hardware; startup, controls, acoustics and RF output must be checked",
+    "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
+  },
+  "flasher": "https://armel.github.io/uvtools2/"
+}

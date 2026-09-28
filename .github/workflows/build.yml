@@ -82,3 +82,14 @@ jobs:
               --title "$TAG" \
               --notes "Experimental test build from the pinned Arm GNU Toolchain 13.3.Rel1. Not yet hardware-tested. See CHANGELOG.md and docs/TEST-CHECKLIST.md."
           fi
+
+      - name: Build K5 V1 Admin/User RX-only firmware
+        working-directory: firmware-v1
+        run: make -j2 ENABLE_LTO=0 AUTHOR_STRING=DO9RE-LX1WJ VERSION_STRING=v1.00
+
+      - name: Upload K5 V1 packed firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: Quansheng-K5V1-AdminUser-MorseVoice-rxonly-test
+          path: firmware-v1/quansheng.AdminUser_RX_K5v1.packed.bin
+          if-no-files-found: error

@@ -1,5 +1,14 @@
 firmware-v3/build/
 firmware-v3/archive/
+firmware-v1/**/*.o
+firmware-v1/**/*.d
+firmware-v1/quansheng.AdminUser_RX_K5v1
+firmware-v1/quansheng.AdminUser_RX_K5v1.bin
+firmware-v1/quansheng.AdminUser_RX_K5v1.packed.bin
+firmware-v1/external/CMSIS_5/
+firmware-v1/external/printf/test/
+firmware-v1/utils/*.exe
+firmware-v1/utils/*.res
 .upstream-reference/
 .upstream-bare/
 *.elf
