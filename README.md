@@ -11,7 +11,11 @@ removing menu entries or audio code:
 - normal power-on: protected ARDF user interface;
 - hold `MENU` while switching on: complete administrator interface;
 - user interface: `UP`/`DOWN` adjust ARDF gain;
-- user interface: `PTT` keeps Richard's acoustic ARDF snapshot action;
+- user interface: briefly press `PTT` for Richard's single acoustic ARDF
+  signal-strength snapshot;
+- user interface: hold `PTT` for a continuous direction-finding tone whose
+  pitch follows the received signal strength until `PTT` is released;
+- these ARDF `PTT` actions replace normal transmission while ARDF is active;
 - other configuration keys are rejected with a low double beep;
 - the protection also applies if ARDF is switched off in the administrator
   menu (PTT is then refused too);
