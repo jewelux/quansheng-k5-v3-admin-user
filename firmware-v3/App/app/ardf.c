@@ -45,19 +45,24 @@ uint8_t ardf_neg_gain_level[2][ARDF_NUM_FOX_MAX];
 
 t_ardf_gain_table ardf_gain_table[] =
 {
-   {0x0000, -60}, // 0: 0, -60dB
-   {0x0080, -55}, // 1: 128, -55dB
-   {0x0051, -50}, // 2: 81, -50dB
-   {0x00B1, -45}, // 3: 177, -45dB
-   {0x00F1, -40}, // 4: 241, -40dB
-   {0x00DA, -35}, // 5: 218, -35dB
-   {0x0065, -30}, // 6: 101, -30dB
-   {0x0215, -25}, // 7: 533, -25dB
-   {0x026E, -20}, // 8: 622, -20dB
-   {0x028F, -15}, // 9: 655, -15dB
-   {0x02BF, -10}, // 10: 703, -10dB
-   {0x03DD, -5}, // 11: 989, -5dB
-   {0x03FF, 0}, // 12: 1023, 0dB
+   /* Monotonic V3/BK4829 ladder.  The anchor values 0x0019, 0x007A,
+    * 0x027B, 0x037B and 0x03BE are the receiver's hardware-proven AGC
+    * entries from BK4819_InitAGC().  Intermediate entries change one gain
+    * field at a time.  This replaces the imported 0x0065 -> 0x0215 jump,
+    * which muted real V3 hardware at sensitivity 7 and above. */
+   {0x0019, -79}, //  0: minimum sensitivity (AGC -1 anchor)
+   {0x0039, -72}, //  1
+   {0x0059, -65}, //  2
+   {0x007A, -58}, //  3: AGC 0 anchor
+   {0x007B, -55}, //  4
+   {0x017B, -49}, //  5
+   {0x027B, -43}, //  6: AGC 1 anchor
+   {0x037B, -24}, //  7: AGC 2 anchor
+   {0x039B, -18}, //  8
+   {0x03BB, -12}, //  9
+   {0x03BE,  -7}, // 10: AGC 3 anchor / normal receiver gain
+   {0x03DE,  -3}, // 11
+   {0x03FF,   0}, // 12: maximum sensitivity
 };
 
 uint32_t          gARDFTime10ms = 0;

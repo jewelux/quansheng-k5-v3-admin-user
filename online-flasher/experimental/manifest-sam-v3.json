@@ -2,10 +2,10 @@
   "schema_version": 1,
   "firmware": {
     "name": "Quansheng K5 V3 Admin User SAM RX-Only Experimental",
-    "version": "0.3.9-rxonly-experimental",
-    "file": "Quansheng-K5V3-AdminUser-SAM-v0.3.9-rxonly-experimental.bin",
+    "version": "0.4.0-rxonly-experimental",
+    "file": "Quansheng-K5V3-AdminUser-SAM-v0.4.0-rxonly-experimental.bin",
     "size": 92540,
-    "sha256": "AD03162DB8759C6610930C5441771F0F2DD9341C00A159F19591DEB43D5C5247",
+    "sha256": "D47F4348BF144ED30C84D27B801B8B2A9DDC6C2E2094FB36F9751A618478F44D",
     "format": "raw-bin",
     "mcu": "PY32F071",
     "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
