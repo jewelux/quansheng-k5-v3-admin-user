@@ -45,24 +45,25 @@ uint8_t ardf_neg_gain_level[2][ARDF_NUM_FOX_MAX];
 
 t_ardf_gain_table ardf_gain_table[] =
 {
-   /* Monotonic V3/BK4829 ladder.  The anchor values 0x0019, 0x007A,
-    * 0x027B, 0x037B and 0x03BE are the receiver's hardware-proven AGC
-    * entries from BK4819_InitAGC().  Intermediate entries change one gain
-    * field at a time.  This replaces the imported 0x0065 -> 0x0215 jump,
-    * which muted real V3 hardware at sensitivity 7 and above. */
-   {0x0019, -79}, //  0: minimum sensitivity (AGC -1 anchor)
-   {0x0039, -72}, //  1
-   {0x0059, -65}, //  2
-   {0x007A, -58}, //  3: AGC 0 anchor
-   {0x007B, -55}, //  4
-   {0x017B, -49}, //  5
-   {0x027B, -43}, //  6: AGC 1 anchor
-   {0x037B, -24}, //  7: AGC 2 anchor
-   {0x039B, -18}, //  8
-   {0x03BB, -12}, //  9
-   {0x03BE,  -7}, // 10: AGC 3 anchor / normal receiver gain
-   {0x03DE,  -3}, // 11
-   {0x03FF,   0}, // 12: maximum sensitivity
+   /* Monotonic V3/BK4829 fixed-gain ladder.  Hardware testing established
+    * that setting REG_13 bits 9:8 (values >= 0x0100) mutes this receiver in
+    * ARDF fixed-gain mode: 0x007B works, while 0x017B does not.  Keep that
+    * stage at zero and increase only the proven LNA/PGA fields in bits 7:0.
+    * Every transition below changes gain in one direction and remains inside
+    * the empirically working 0x00xx register range. */
+   {0x0019, -51}, //  0: LNA 0, mixer 3, PGA 1
+   {0x0039, -46}, //  1: LNA 1, mixer 3, PGA 1
+   {0x0059, -41}, //  2: LNA 2, mixer 3, PGA 1
+   {0x007A, -30}, //  3: LNA 3, mixer 3, PGA 2
+   {0x007B, -24}, //  4: LNA 3, mixer 3, PGA 3
+   {0x009B, -21}, //  5: LNA 4, mixer 3, PGA 3
+   {0x00BB, -19}, //  6: LNA 5, mixer 3, PGA 3
+   {0x00DB, -17}, //  7: LNA 6, mixer 3, PGA 3
+   {0x00FB, -15}, //  8: LNA 7, mixer 3, PGA 3
+   {0x00FC,  -9}, //  9: LNA 7, mixer 3, PGA 4
+   {0x00FD,  -6}, // 10: LNA 7, mixer 3, PGA 5
+   {0x00FE,  -3}, // 11: LNA 7, mixer 3, PGA 6
+   {0x00FF,   0}, // 12: LNA 7, mixer 3, PGA 7
 };
 
 uint32_t          gARDFTime10ms = 0;

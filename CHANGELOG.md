@@ -14,7 +14,7 @@
 - Declare `SETTINGS_SaveAccessibilityMode()` for Morse-only builds.
 - Fix the README build commands and upload the RX-only CI artifact.
 
-## V3/K1 0.4.0-rxonly-experimental (feature/v3-admin-sam only)
+## V3/K1 0.4.1-rxonly-experimental (feature/v3-admin-sam only)
 
 - Add a separate `AdminUser-SAM-RXOnly` preset without changing the tested
   `AdminUser-Morse-RXOnly` preset or its v0.3.5 artifact.
@@ -26,9 +26,11 @@
 - Enforce `Access = OFF` at both audio backends: direct ARDF SAM announcements
   are now suppressed and the menu no longer treats every non-SAM mode as
   Morse.
-- Replace the imported V3 RF-gain table with a monotonic BK4829 ladder based
-  on the receiver driver's hardware-proven AGC register values. This removes
-  the bad sensitivity-6-to-7 transition that muted reception at levels 7–12.
+- Correct the fixed ARDF gain ladder after hardware testing of v0.4.0 showed
+  that `REG_13` values using bits 9:8 mute this V3/K1 receiver (`0x007B`
+  works, while `0x017B` does not). All sensitivity levels 0–12 now keep those
+  bits clear and increase only the proven LNA/PGA fields from `0x0019` through
+  `0x00FF`.
 - Disable FM radio, spectrum, VOX, games, screenshots and regional channel
   helpers in this experimental preset, matching Richard's lean SAM preset and
   leaving all ARDF receiver functions intact.
