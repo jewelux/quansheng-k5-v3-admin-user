@@ -35,6 +35,10 @@ void SAM_SetPitch(uint8_t pitch);
  * Controls formant frequencies for voice timbre. */
 void SAM_SetMouthThroatParam(uint8_t level);
 
+/* Set SAM-only output level: 1 (quietest) – 9 (original/full level).
+ * This is digital attenuation only and cannot amplify above the original. */
+void SAM_SetVolume(uint8_t level);
+
 /* Begin synthesising *text*.  Preprocesses and converts to phonemes.
  * Call SAM_FillVoiceBuffer() repeatedly afterwards.
  * Returns estimated duration in 10 ms units (0 if nothing to say). */

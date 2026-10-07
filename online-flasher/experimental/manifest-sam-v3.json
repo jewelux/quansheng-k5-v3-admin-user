@@ -2,10 +2,10 @@
   "schema_version": 1,
   "firmware": {
     "name": "Quansheng K5 V3 Admin User SAM RX-Only Experimental",
-    "version": "0.4.1-rxonly-experimental",
-    "file": "Quansheng-K5V3-AdminUser-SAM-v0.4.1-rxonly-experimental.bin",
-    "size": 92540,
-    "sha256": "7AAE36956294C6F71AF7299C3031FD109EBF90851B5070F8FB09BBA8A599B098",
+    "version": "0.4.2-rxonly-experimental",
+    "file": "Quansheng-K5V3-AdminUser-SAM-v0.4.2-rxonly-experimental.bin",
+    "size": 92840,
+    "sha256": "78F4639E32E7975A06DFB7EEDDFD278B0F0A4AD64B5AEB485E6D10056C408B3B",
     "format": "raw-bin",
     "mcu": "PY32F071",
     "hardware": ["Quansheng UV-K5 V3", "Quansheng UV-K1"],
@@ -17,7 +17,7 @@
     "reserved_stack_bytes": 1024,
     "additional_ram_headroom_bytes": 2176,
     "status": "experimental-not-hardware-tested",
-    "hardware_test": "startup, SAM audio, menu navigation, receiver-audio recovery and RF-output measurement required",
+    "hardware_test": "startup, SAM volume and side keys, persistence, menu navigation, receiver-audio recovery and RF-output measurement required",
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
   "branch": "feature/v3-admin-sam",

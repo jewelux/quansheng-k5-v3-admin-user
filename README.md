@@ -70,7 +70,11 @@ direct `firmwareURL` link format.
 The separate `feature/v3-admin-sam` branch contains an experimental
 `AdminUser-SAM-RXOnly` preset. It adds Richard's SAM text-to-speech alongside
 Morse, with stored voice samples deliberately disabled, while retaining
-Admin/User and RX-only guards.
+Admin/User and RX-only guards. Experimental version v0.4.2 adds SAM-only
+attenuation levels 1–9: `SamVol` is available in the administrator menu and,
+when `Access = SAM`, the protected user interface uses the upper side key for
+louder and the lower side key for quieter. Level 9 is the original/full SAM
+level; receiver, Morse and beep audio are not changed.
 It does not replace the tested V3 v0.3.5 artifact on `development`. See
 `online-flasher/experimental/README.md` before testing.
 

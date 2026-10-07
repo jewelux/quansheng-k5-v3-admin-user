@@ -180,6 +180,7 @@ enum
     MENU_SAM_SPEED,
     MENU_SAM_PITCH,
     MENU_SAM_MOUTH,
+    MENU_SAM_VOLUME,
 #endif
     MENU_BATCAL,  // battery voltage calibration
     MENU_F1SHRT,

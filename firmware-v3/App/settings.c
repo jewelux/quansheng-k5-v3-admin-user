@@ -467,8 +467,9 @@ gEeprom.FreqChannel[1]   = IS_FREQ_CHANNEL(Data16[5]) ? Data16[5] : (FREQ_CHANNE
     {
         uint8_t AccData[4];
         PY25Q16_ReadBuffer(0x00D000 + 0x0C, AccData, 4);
-        if (AccData[0] != 0xFF && AccData[0] < ACCESS_MODE_COUNT)
-            gAccessibilityMode = AccData[0];
+        const uint8_t accessibilityMode = AccData[0] & 0x03;
+        if (AccData[0] != 0xFF && accessibilityMode < ACCESS_MODE_COUNT)
+            gAccessibilityMode = accessibilityMode;
         else
             gAccessibilityMode = 0;  // default: first available mode
 #ifdef ENABLE_SAM_TTS
@@ -484,9 +485,15 @@ gEeprom.FreqChannel[1]   = IS_FREQ_CHANNEL(Data16[5]) ? Data16[5] : (FREQ_CHANNE
             gSamMouthSetting = AccData[3];
         else
             gSamMouthSetting = 9;
+        /* The high nibble of the accessibility-mode byte was previously
+         * unused.  A zero nibble denotes data written by an older firmware. */
+        gSamVolumeSetting = (AccData[0] >> 4) & 0x0F;
+        if (gSamVolumeSetting < 1 || gSamVolumeSetting > 9)
+            gSamVolumeSetting = 9;
         SAM_SetSpeed(gSamSpeedSetting);
         SAM_SetPitch(gSamPitchSetting);
         SAM_SetMouthThroatParam(gSamMouthSetting);
+        SAM_SetVolume(gSamVolumeSetting);
 #endif
     }
 #endif
@@ -888,6 +895,7 @@ void SETTINGS_SaveAccessibilityMode(void)
     memset(AccData, 0xFF, sizeof(AccData));
     AccData[0] = gAccessibilityMode & 0x03;
 #ifdef ENABLE_SAM_TTS
+    AccData[0] |= (gSamVolumeSetting & 0x0F) << 4;
     AccData[1] = gSamSpeedSetting;
     AccData[2] = gSamPitchSetting;
     AccData[3] = gSamMouthSetting;

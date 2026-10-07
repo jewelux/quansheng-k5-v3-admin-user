@@ -120,6 +120,7 @@ uint8_t           gAccessibilityMode = 0;  // defaults to first available mode
 uint8_t           gSamSpeedSetting = 9;
 uint8_t           gSamPitchSetting = 5;
 uint8_t           gSamMouthSetting = 9;
+uint8_t           gSamVolumeSetting = 9;
 #endif
 
 enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;

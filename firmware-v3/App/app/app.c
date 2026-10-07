@@ -57,6 +57,9 @@
 #include "driver/bk4819.h"
 #include "driver/gpio.h"
 #include "driver/keyboard.h"
+#ifdef ENABLE_SAM_TTS
+    #include "driver/sam/sam.h"
+#endif
 #include "driver/st7565.h"
 #include "driver/system.h"
 #include "dtmf.h"
@@ -1951,6 +1954,34 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
         gKeyLockCountdown = gEeprom.AUTO_KEYPAD_LOCK * 30;     // 15 seconds step
 
 #if defined(ENABLE_ARDF) && defined(ENABLE_ADMIN_USER_MODE)
+#ifdef ENABLE_SAM_TTS
+    if (!gF_LOCK && gAccessibilityMode == ACCESS_MODE_SAM &&
+        (Key == KEY_SIDE1 || Key == KEY_SIDE2))
+    {
+        /* The protected user interface otherwise blocks both side keys.
+         * Use them only for SAM attenuation: upper/SIDE1 is louder and
+         * lower/SIDE2 is quieter.  No normal side-key action is exposed. */
+        if (bKeyPressed && !bKeyHeld)
+        {
+            const uint8_t previousVolume = gSamVolumeSetting;
+
+            if (Key == KEY_SIDE1 && gSamVolumeSetting < 9)
+                gSamVolumeSetting++;
+            else if (Key == KEY_SIDE2 && gSamVolumeSetting > 1)
+                gSamVolumeSetting--;
+
+            SAM_SetVolume(gSamVolumeSetting);
+            if (gSamVolumeSetting != previousVolume)
+                SETTINGS_SaveAccessibilityMode();
+
+            char announcement[16];
+            snprintf(announcement, sizeof(announcement),
+                     "VOLUME %u", (unsigned)gSamVolumeSetting);
+            AUDIO_PlaySAMText(announcement);
+        }
+        return;
+    }
+#endif
     if (!gF_LOCK &&
         Key != KEY_UP &&
         Key != KEY_DOWN &&

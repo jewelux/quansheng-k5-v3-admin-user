@@ -1160,6 +1160,7 @@ static unsigned char sam_speed  = 72;
 static unsigned char sam_pitch  = 64;
 static unsigned char sam_mouth  = 145;
 static unsigned char sam_throat = 135;
+static unsigned char sam_volume = 9;
 static int           sam_singmode = 0;
 
 /* Parser working variables */
@@ -3017,6 +3018,13 @@ void SAM_SetMouthThroatParam(uint8_t level)
     SetMouthThroat(sam_mouth, sam_throat);
 }
 
+void SAM_SetVolume(uint8_t level)
+{
+    if (level < 1) level = 1;
+    if (level > 9) level = 9;
+    sam_volume = level;
+}
+
 uint16_t SAM_StartSpeaking(const char *text)
 {
     int i, len;
@@ -3105,7 +3113,12 @@ bool SAM_FillVoiceBuffer(void)
         {
             int16_t s = ((int16_t)rs.last_sample - 128) << 4;
             s = sam_filter(s);
-            int32_t dac_val = (int32_t)s + 2048;
+            /* SAM volume is attenuation only.  Level 9 is bit-for-bit the
+             * original amplitude; lower levels scale around the DAC midpoint
+             * and therefore do not affect receiver, Morse or beep audio. */
+            int32_t scaled = (int32_t)s * sam_volume;
+            scaled = (scaled >= 0) ? (scaled + 4) / 9 : (scaled - 4) / 9;
+            int32_t dac_val = scaled + 2048;
             if (dac_val < 0) dac_val = 0;
             if (dac_val > 4095) dac_val = 4095;
             dst[i] = (uint16_t)dac_val;

@@ -1,5 +1,18 @@
 # Changelog
 
+## V3/K1 0.4.2-rxonly-experimental (feature/v3-admin-sam only)
+
+- Add SAM-only volume levels 1–9. Level 9 is exactly the previous full SAM
+  amplitude; levels 1–8 only attenuate the synthesized PCM signal and do not
+  alter receiver, Morse or beep audio.
+- Add the administrator-menu item `SamVol` and persist its value without
+  changing the EEPROM layout. Older saved settings default safely to level 9.
+- In protected user mode with `Access = SAM`, use the upper side key to raise
+  SAM volume and the lower side key to lower it. The firmware intercepts only
+  these volume actions and does not expose the normal side-key functions.
+- Build successfully with GCC 13.3.1: 92840 bytes flash and 14208 of 16384
+  bytes RAM including the linker's reserved 1 KiB stack.
+
 ## 0.3.5-rxonly-test (source only; release binary not yet built)
 
 - Make held `MENU` the only administrator entry. Richard's `PTT` + `SIDE1`

@@ -509,6 +509,9 @@ static void MENU_GetSubMenuValueText(char *buf, size_t buf_size)
         case MENU_SAM_MOUTH:
             snprintf(buf, buf_size, "Mouth %u", (unsigned)sel);
             break;
+        case MENU_SAM_VOLUME:
+            snprintf(buf, buf_size, "Volume %u", (unsigned)sel);
+            break;
 #endif
 
 #ifdef ENABLE_ARDF
@@ -782,6 +785,7 @@ void MENU_PlayMorseForCurrentItem(void)
                     case MENU_SAM_SPEED: sam_text = "SAM S P D"; break;
                     case MENU_SAM_PITCH: sam_text = "SAM P T C"; break;
                     case MENU_SAM_MOUTH: sam_text = "SAM M T H"; break;
+                    case MENU_SAM_VOLUME: sam_text = "SAM VOLUME"; break;
 #ifdef ENABLE_ARDF
                     case MENU_ARDF:              sam_text = "AY AHR DEE EHF"; break;
                     case MENU_ARDF_NUMFOXES:     sam_text = "NUM FOKS";       break;
@@ -1198,6 +1202,10 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
                 *pMax = 9;
                 break;
             case MENU_SAM_MOUTH:
+                *pMin = 1;
+                *pMax = 9;
+                break;
+            case MENU_SAM_VOLUME:
                 *pMin = 1;
                 *pMax = 9;
                 break;
@@ -1875,6 +1883,11 @@ void MENU_AcceptSetting(void)
                 SAM_SetMouthThroatParam(gSamMouthSetting);
                 SETTINGS_SaveAccessibilityMode();
                 break;
+            case MENU_SAM_VOLUME:
+                gSamVolumeSetting = gSubMenuSelection;
+                SAM_SetVolume(gSamVolumeSetting);
+                SETTINGS_SaveAccessibilityMode();
+                break;
         #endif
 
         case MENU_SC_REV:
@@ -2452,6 +2465,9 @@ void MENU_ShowCurrentSetting(void)
             break;
         case MENU_SAM_MOUTH:
             gSubMenuSelection = gSamMouthSetting;
+            break;
+        case MENU_SAM_VOLUME:
+            gSubMenuSelection = gSamVolumeSetting;
             break;
 #endif
 

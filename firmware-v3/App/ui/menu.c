@@ -196,6 +196,7 @@ const t_menu_item MenuList[] =
     MI("SamSpd",    MENU_SAM_SPEED,       1),
     MI("SamPit",    MENU_SAM_PITCH,       1),
     MI("SamMth",    MENU_SAM_MOUTH,       1),
+    MI("SamVol",    MENU_SAM_VOLUME,      1),
 #endif
     // hidden menu items from here on
     // enabled if pressing both the PTT and upper side button at power-on
@@ -1214,6 +1215,9 @@ void UI_DisplayMenu(void)
             sprintf(String, "%u", (unsigned)gSubMenuSelection);
             break;
         case MENU_SAM_MOUTH:
+            sprintf(String, "%u", (unsigned)gSubMenuSelection);
+            break;
+        case MENU_SAM_VOLUME:
             sprintf(String, "%u", (unsigned)gSubMenuSelection);
             break;
 #endif
