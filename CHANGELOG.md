@@ -13,6 +13,9 @@
 - Retain the v0.4.2 SAM-only volume control and all RX-only/Admin-User guards.
 - Functional hardware testing reported successful on 2026-10-08; independent
   RF-output measurement remains required before declaring a stable release.
+- Preserve the published v0.3.5 artifact from the canonical tracked binary.
+  Development builds can no longer silently replace it under the old version
+  number; the workflow repairs a mismatch and otherwise leaves it unchanged.
 - Build successfully with GCC 13.3.1: 92904 bytes flash and 14208 of 16384
   bytes RAM including the linker's reserved 1 KiB stack.
 

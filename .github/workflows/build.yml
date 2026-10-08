@@ -70,10 +70,26 @@ jobs:
           VERSION="$(grep -m1 -E '^## [0-9]' CHANGELOG.md | awk '{print $2}')"
           TAG="v${VERSION}"
           FILE="Quansheng-K5V3-AdminUser-MorseVoice-v${VERSION}.bin"
-          cp firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin "$FILE"
+          SOURCE="online-flasher/${FILE}"
+          test -f "$SOURCE"
+          cp "$SOURCE" "$FILE"
           sha256sum "$FILE" > "$FILE.sha256"
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$FILE" "$FILE.sha256" --clobber --repo "$GITHUB_REPOSITORY"
+            # Releases are immutable unless their published checksum differs
+            # from the canonical, tracked online-flasher artifact. This also
+            # repairs an asset once if an older workflow replaced it with a
+            # newly built binary under the old version number.
+            CHECK_DIR="$(mktemp -d)"
+            if gh release download "$TAG" \
+                 --repo "$GITHUB_REPOSITORY" \
+                 --pattern "$FILE.sha256" \
+                 --dir "$CHECK_DIR" >/dev/null 2>&1 \
+               && cmp -s "$FILE.sha256" "$CHECK_DIR/$FILE.sha256"; then
+              echo "Release $TAG already matches the canonical artifact"
+            else
+              gh release upload "$TAG" "$FILE" "$FILE.sha256" \
+                --clobber --repo "$GITHUB_REPOSITORY"
+            fi
           else
             gh release create "$TAG" "$FILE" "$FILE.sha256" \
               --repo "$GITHUB_REPOSITORY" \
