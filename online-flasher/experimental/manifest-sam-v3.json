@@ -16,10 +16,10 @@
     "ram_total_bytes": 16384,
     "reserved_stack_bytes": 1024,
     "additional_ram_headroom_bytes": 2176,
-    "status": "experimental-not-hardware-tested",
+    "status": "experimental-function-tested-rf-output-pending",
     "hardware_test": "startup, sensitivity 0-12, close-range minus 1-9 attenuation and bandwidth restoration, SAM volume and side keys, persistence, menu navigation, receiver-audio recovery and RF-output measurement required",
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)"
   },
-  "branch": "feature/v3-admin-sam",
+  "branch": "main",
   "flasher": "https://armel.github.io/uvtools2/"
 }

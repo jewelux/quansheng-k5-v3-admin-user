@@ -15,8 +15,9 @@ removing menu entries or audio code:
   signal-strength snapshot;
 - user interface: hold `PTT` for a continuous direction-finding tone whose
   pitch follows the received signal strength until `PTT` is released;
-- these ARDF `PTT` actions do not transmit and remain available when
-  `Access = OFF`; that setting silences only Morse and SAM menu announcements;
+- these ARDF `PTT` actions replace normal transmission, do not transmit and
+  remain available when `Access = OFF`; that setting silences only Morse and
+  SAM menu announcements;
 - other configuration keys are rejected with a low double beep;
 - the protection also applies if ARDF is switched off in the administrator
   menu (PTT is then refused too);
@@ -65,10 +66,9 @@ The one file selected by UVTools2 is kept in [`online-flasher`](online-flasher/)
 See its README for exact flashing instructions, hardware restrictions and the
 direct `firmwareURL` link format.
 
-## Experimental V3 SAM branch
+## Experimental V3 SAM build
 
-The separate `feature/v3-admin-sam` branch contains an experimental
-`AdminUser-SAM-RXOnly` preset. It adds Richard's SAM text-to-speech alongside
+The `AdminUser-SAM-RXOnly` preset adds Richard's SAM text-to-speech alongside
 Morse, with stored voice samples deliberately disabled, while retaining
 Admin/User and RX-only guards. Experimental version v0.4.3 includes SAM-only
 attenuation levels 1–9: `SamVol` is available in the administrator menu and,
@@ -78,7 +78,7 @@ level; receiver, Morse and beep audio are not changed. Normal sensitivity
 levels are announced briefly as `zero` through `twelve`; Richard's additional
 close-range attenuation and narrow-band zone below 00 is announced distinctly
 as `minus one` through `minus nine`.
-It does not replace the tested V3 v0.3.5 artifact on `development`. See
+It does not replace the V3 v0.3.5 Morse/voice-sample artifact. See
 `online-flasher/experimental/README.md` before testing.
 
 ## Build V3 / K1

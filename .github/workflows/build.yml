@@ -65,9 +65,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # The version is taken from the first heading of CHANGELOG.md,
-          # e.g. "## 0.3.5-rxonly-test ...".  Each push updates that release.
-          VERSION="$(grep -m1 '^## ' CHANGELOG.md | awk '{print $2}')"
+          # Select the first release heading whose version starts with a
+          # digit. Feature headings such as "V3/K1 ..." must not become tags.
+          VERSION="$(grep -m1 -E '^## [0-9]' CHANGELOG.md | awk '{print $2}')"
           TAG="v${VERSION}"
           FILE="Quansheng-K5V3-AdminUser-MorseVoice-v${VERSION}.bin"
           cp firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin "$FILE"

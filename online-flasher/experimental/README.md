@@ -1,7 +1,7 @@
 # Experimental V3 Admin/User SAM build
 
-This directory is intentionally separate from the current V3/K1 and V1 test
-artifacts. Nothing here replaces `v0.3.5-rxonly-test` on `development`.
+This directory is intentionally separate from the V3/K1 and V1 Morse/voice
+test artifacts. Nothing here replaces `v0.3.5-rxonly-test`.
 
 Select only:
 
@@ -37,8 +37,9 @@ The build contains:
 
 The image builds with 92904 bytes flash and 14208 of 16384 bytes RAM. The RAM
 figure includes the linker's reserved 1024-byte stack and leaves 2176
-additional bytes. Treat this as an experimental hardware test, not a stable
-release.
+additional bytes. Functional hardware testing was reported successful on
+2026-10-08, but RF-output measurement is still required. Treat this as an
+experimental build, not a stable release.
 
 Initial test order:
 
@@ -67,13 +68,13 @@ Initial test order:
 Direct UVTools2 link:
 
 ```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/feature/v3-admin-sam/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin
+https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin
 ```
 
 Direct raw firmware download:
 
 ```text
-https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/feature/v3-admin-sam/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin
+https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin
 ```
 
 The correct raw file is exactly 92904 bytes. Do not use “Save link as” on a

@@ -1,6 +1,6 @@
 # Changelog
 
-## V3/K1 0.4.3-rxonly-experimental (feature/v3-admin-sam only)
+## V3/K1 0.4.3-rxonly-experimental
 
 - Shorten SAM sensitivity announcements to the displayed index: normal
   levels now speak only `zero` through `twelve`.
@@ -11,10 +11,12 @@
   the IF bandwidth. Normal bandwidth and AF gain are restored when returning
   to level 00, including the transition back from the narrow-band levels.
 - Retain the v0.4.2 SAM-only volume control and all RX-only/Admin-User guards.
+- Functional hardware testing reported successful on 2026-10-08; independent
+  RF-output measurement remains required before declaring a stable release.
 - Build successfully with GCC 13.3.1: 92904 bytes flash and 14208 of 16384
   bytes RAM including the linker's reserved 1 KiB stack.
 
-## V3/K1 0.4.2-rxonly-experimental (feature/v3-admin-sam only)
+## V3/K1 0.4.2-rxonly-experimental
 
 - Add SAM-only volume levels 1–9. Level 9 is exactly the previous full SAM
   amplitude; levels 1–8 only attenuate the synthesized PCM signal and do not
@@ -41,7 +43,7 @@
 - Declare `SETTINGS_SaveAccessibilityMode()` for Morse-only builds.
 - Fix the README build commands and upload the RX-only CI artifact.
 
-## V3/K1 0.4.1-rxonly-experimental (feature/v3-admin-sam only)
+## V3/K1 0.4.1-rxonly-experimental
 
 - Add a separate `AdminUser-SAM-RXOnly` preset without changing the tested
   `AdminUser-Morse-RXOnly` preset or its v0.3.5 artifact.
