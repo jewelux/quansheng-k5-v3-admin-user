@@ -353,15 +353,6 @@ bool ARDF_ActVfoHasGainRemember(uint8_t vfo)
 
 
 
-void ARDF_ActivateGainIndex(void)
-{
-   BK4819_WriteRegister( BK4819_REG_13, ardf_gain_table[ ARDF_Get_GainIndex(gEeprom.RX_VFO) ].reg_val );
-   gARDFRssiMax = 0;
-   gUpdateDisplay = true;
-}
-
-
-
 int32_t ARDF_GetRestTime_s(void)
 {
    return (int32_t)(gARDFFoxDuration10ms - gARDFTime10ms * gARDFFoxDuration10ms/gARDFFoxDuration10ms_corr )/100;
@@ -397,9 +388,9 @@ typedef struct {
     uint16_t reg43_override;  // IF bandwidth override (0 = no change)
 } t_ardf_neg_gain_entry;
 
-static const t_ardf_neg_gain_entry __attribute__((unused)) ardf_neg_gain_table[ARDF_NEG_GAIN_LEVELS] =
+static const t_ardf_neg_gain_entry ardf_neg_gain_table[ARDF_NEG_GAIN_LEVELS] =
 {
-    // --- Moderate AF reduction (RF gain already at minimum -60dB) ---
+    // --- Moderate AF reduction (RF gain already at minimum level 00) ---
     { (11u << 12) | (0u << 10) | (32u << 4) | (6u << 0), 0 },     // N1
     { (11u << 12) | (1u << 10) | (20u << 4) | (4u << 0), 0 },     // N2
     { (11u << 12) | (2u << 10) | (12u << 4) | (3u << 0), 0 },     // N3
@@ -414,6 +405,51 @@ static const t_ardf_neg_gain_entry __attribute__((unused)) ardf_neg_gain_table[A
     { ( 0u << 12) | (3u << 10) | ( 1u << 4) | (0u << 0), 0x0058 },// N8
     { ( 0u << 12) | (3u << 10) | ( 1u << 4) | (0u << 0), 0x0018 },// N9: tightest
 };
+
+
+
+void ARDF_ActivateGainIndex(void)
+{
+   const uint8_t vfo = gEeprom.RX_VFO;
+   const uint8_t neg_level = ARDF_Get_NegGainLevel(vfo);
+
+   BK4819_WriteRegister(BK4819_REG_13,
+      ardf_gain_table[ARDF_Get_GainIndex(vfo)].reg_val);
+
+   if (neg_level > 0 && neg_level <= ARDF_NEG_GAIN_LEVELS)
+   {
+      const t_ardf_neg_gain_entry *entry =
+         &ardf_neg_gain_table[neg_level - 1];
+
+      // Apply Richard's additional close-range AF attenuation.
+      BK4819_WriteRegister(BK4819_REG_48, entry->reg48);
+
+      if (entry->reg43_override != 0)
+      {
+         // N7-N9 progressively enter the narrow-band close-range zone.
+         BK4819_WriteRegister(BK4819_REG_43, entry->reg43_override);
+      }
+      else
+      {
+         // Returning from N7-N9 to N1-N6 must restore normal bandwidth.
+         BK4819_SetFilterBandwidth(gRxVfo->CHANNEL_BANDWIDTH, true);
+      }
+   }
+   else
+   {
+      // Restore the normal receiver-audio gain when leaving minus one.
+      BK4819_WriteRegister(BK4819_REG_48,
+         (11u << 12) |
+         ( 0u << 10) |
+         (gEeprom.VOLUME_GAIN << 4) |
+         (gEeprom.DAC_GAIN    << 0));
+
+      BK4819_SetFilterBandwidth(gRxVfo->CHANNEL_BANDWIDTH, true);
+   }
+
+   gARDFRssiMax = 0;
+   gUpdateDisplay = true;
+}
 
 
 

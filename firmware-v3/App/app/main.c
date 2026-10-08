@@ -53,9 +53,9 @@
 
 #if defined(ENABLE_ARDF) && defined(ENABLE_SAM_TTS)
 #include "external/printf/printf.h"
-/* Announce current gain setting via SAM TTS.
- * Negative gain levels are spoken as "N 1" .. "N 9".
- * Normal gain is spoken as the dB value, e.g. "minus 25". */
+/* Announce the same concise sensitivity index that is shown on screen.
+ * The additional close-range attenuation zone below 00 keeps an audible
+ * distinction and is spoken as "minus one" through "minus nine". */
 static void MAIN_PlayArdfGainSAM(void)
 {
     const uint8_t vfo = gEeprom.RX_VFO;
@@ -64,17 +64,12 @@ static void MAIN_PlayArdfGainSAM(void)
 
     if (neg_level > 0)
     {
-        snprintf(buf, sizeof(buf), "negative %u", (unsigned)neg_level);
+        snprintf(buf, sizeof(buf), "minus %u", (unsigned)neg_level);
     }
     else
     {
-        int8_t gain_dB = ardf_gain_table[ARDF_Get_GainIndex(vfo)].gain_dB;
-        if (gain_dB < 0)
-            snprintf(buf, sizeof(buf), "minus %d", (int)(-gain_dB));
-        else if (gain_dB == 0)
-            snprintf(buf, sizeof(buf), "0");
-        else
-            snprintf(buf, sizeof(buf), "%d", (int)gain_dB);
+        snprintf(buf, sizeof(buf), "%u",
+                 (unsigned)ARDF_Get_GainIndex(vfo));
     }
 
     AUDIO_PlaySAMText(buf);

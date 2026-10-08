@@ -1,5 +1,19 @@
 # Changelog
 
+## V3/K1 0.4.3-rxonly-experimental (feature/v3-admin-sam only)
+
+- Shorten SAM sensitivity announcements to the displayed index: normal
+  levels now speak only `zero` through `twelve`.
+- Preserve an unmistakable acoustic boundary below level 00 by speaking
+  `minus one` through `minus nine` for Richard's close-range zone.
+- Restore the missing V3 hardware application of Richard's close-range table.
+  Minus 1–6 apply progressive AF attenuation; minus 7–9 additionally narrow
+  the IF bandwidth. Normal bandwidth and AF gain are restored when returning
+  to level 00, including the transition back from the narrow-band levels.
+- Retain the v0.4.2 SAM-only volume control and all RX-only/Admin-User guards.
+- Build successfully with GCC 13.3.1: 92904 bytes flash and 14208 of 16384
+  bytes RAM including the linker's reserved 1 KiB stack.
+
 ## V3/K1 0.4.2-rxonly-experimental (feature/v3-admin-sam only)
 
 - Add SAM-only volume levels 1–9. Level 9 is exactly the previous full SAM

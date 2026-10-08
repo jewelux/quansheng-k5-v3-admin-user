@@ -5,7 +5,7 @@ artifacts. Nothing here replaces `v0.3.5-rxonly-test` on `development`.
 
 Select only:
 
-`Quansheng-K5V3-AdminUser-SAM-v0.4.2-rxonly-experimental.bin`
+`Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin`
 
 Supported hardware:
 
@@ -28,10 +28,14 @@ The build contains:
   full level and levels 1–8 providing attenuation only;
 - protected user-mode SAM volume control: upper side key louder, lower side
   key quieter;
+- concise SAM sensitivity announcements: `zero` through `twelve`, followed
+  below level 00 by `minus one` through `minus nine`;
+- Richard's close-range zone restored on V3: minus 1–6 progressively attenuate
+  receiver audio and minus 7–9 additionally narrow the IF bandwidth;
 - corrected monotonic V3/BK4829 sensitivity levels 0–12, entirely inside the
   receiver's hardware-tested working `REG_13` range.
 
-The image builds with 92840 bytes flash and 14208 of 16384 bytes RAM. The RAM
+The image builds with 92904 bytes flash and 14208 of 16384 bytes RAM. The RAM
 figure includes the linker's reserved 1024-byte stack and leaves 2176
 additional bytes. Treat this as an experimental hardware test, not a stable
 release.
@@ -39,7 +43,7 @@ release.
 Initial test order:
 
 1. Back up calibration and EEPROM data.
-2. Flash only to a V3/K1 and confirm the display advances past `v0.42`.
+2. Flash only to a V3/K1 and confirm the display advances past `v0.43`.
 3. Test normal user startup, `UP`, `DOWN` and the acoustic PTT action.
 4. Start with held `MENU`; confirm `Access` offers Morse, SAM and OFF, but no
    Voice.
@@ -54,20 +58,24 @@ Initial test order:
 8. With a steady received signal, step through every sensitivity level 0–12.
    Pay particular attention to 4-to-5, 5-to-6 and 6-to-7, then test the same
    transitions in reverse. Reception must remain audible at every level.
-9. Do not treat TX prevention as verified until RF output is measured.
+9. Continue downward from 00 through minus 1–9. Confirm progressive close-range
+   attenuation, the additional narrow-band effect at minus 7–9, and correct
+   restoration while returning through minus 6 to 00. SAM must speak only the
+   number at 0–12 and `minus` plus the number below 00.
+10. Do not treat TX prevention as verified until RF output is measured.
 
 Direct UVTools2 link:
 
 ```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/feature/v3-admin-sam/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.2-rxonly-experimental.bin
+https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/feature/v3-admin-sam/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin
 ```
 
 Direct raw firmware download:
 
 ```text
-https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/feature/v3-admin-sam/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.2-rxonly-experimental.bin
+https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/feature/v3-admin-sam/online-flasher/experimental/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin
 ```
 
-The correct raw file is exactly 92840 bytes. Do not use “Save link as” on a
+The correct raw file is exactly 92904 bytes. Do not use “Save link as” on a
 normal `github.com/.../blob/...` page; that saves GitHub HTML instead of the
 firmware. A firmware URL must use `raw.githubusercontent.com`.
