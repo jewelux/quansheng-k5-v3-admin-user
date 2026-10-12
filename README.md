@@ -4,6 +4,15 @@ Experimental Admin/User extension of Richard's talking ARDF firmware for the
 Quansheng UV-K5 V3 / UV-K1 (PY32F071) and, in a separate build, the
 original UV-K5 V1 (DP32G030).
 
+## Branches
+
+- `main` is the current, reviewed project state and the branch to use for
+  firmware downloads and normal operation.
+- `development` is the test branch for ongoing development. Builds from this
+  branch may be incomplete or not yet validated on the radio.
+
+Unless a test explicitly requires `development`, use `main`.
+
 The first development stage deliberately preserves Richard's complete menu and
 Richard's proven Morse accessibility path. It adds a protected user interface without
 removing menu entries or audio code:
