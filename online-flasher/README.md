@@ -1,12 +1,12 @@
-# Current firmware on development
+# Current firmware on main
 
 ## K5 V3 / K1: SAM v0.4.3
 
-Current firmware: `Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin`
+Current firmware: `Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly.bin`
 
-[Open the online flasher](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin)
+[Open the online flasher](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly.bin)
 
-[Download the BIN file](https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin)
+[Download the BIN file](https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly.bin)
 
 For UV-K5 V3 / UV-K1 with PY32F071 only. Never flash onto V1/DP32G030,
 V2/PY32F030 or GD32. This raw image is exactly 92904 bytes; its checksum is
@@ -23,13 +23,13 @@ See `experimental/README.md` for the detailed test checklist.
 
 The previous V3 MorseVoice v0.3.5 image is retained in `archive/`.
 The identical SAM file under `experimental/` remains for existing links.
-`manifest.json` identifies the current V3/K1 development firmware.
+`manifest.json` identifies the current V3/K1 main firmware.
 
 ## K5 V1: MorseVoice v1.0.1
 
 `Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin`
 
-[Open the V1 online flasher](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin)
+[Open the V1 online flasher](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin)
 
 For the original UV-K5 V1 / DP32G030 only. V1 provides stored voice samples
 and Morse fallback, with no SAM. The smoke test passed on 2026-09-28;

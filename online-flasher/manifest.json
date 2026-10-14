@@ -2,8 +2,8 @@
   "schema_version": 1,
   "firmware": {
     "name": "Quansheng K5 V3 Admin User SAM RX-Only Experimental",
-    "version": "0.4.3-rxonly-experimental",
-    "file": "Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin",
+    "version": "0.4.3-rxonly",
+    "file": "Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly.bin",
     "size": 92904,
     "sha256": "B622F331FD990A44D6008AB3F2D409AB101EADDC59E6BD95BC03DFEF48692585",
     "format": "raw-bin",
@@ -28,6 +28,6 @@
     "toolchain": "Arm GNU Toolchain 13.3.Rel1 (arm-none-eabi-gcc 13.3.1)",
     "user_observation": "2026-10-14: user reports that the radio no longer transmits during operation; RF-output measurement remains pending."
   },
-  "branch": "development",
+  "branch": "main",
   "flasher": "https://armel.github.io/uvtools2/"
 }

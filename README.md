@@ -11,10 +11,10 @@ original UV-K5 V1 (DP32G030).
 - `development` is the test branch for ongoing development. Builds from this
   branch may be incomplete or not yet validated on the radio.
 
-For the current V3/K1 SAM development firmware, use **v0.4.3-rxonly-experimental**
-on `development`.
+For the current V3/K1 SAM firmware, use **v0.4.3-rxonly**
+on `main`.
 
-[Flash current SAM v0.4.3 online](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin)
+[Flash current SAM v0.4.3 online](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/main/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly.bin)
 
 The first development stage deliberately preserves Richard's complete menu and
 Richard's proven Morse accessibility path. It adds a protected user interface without
@@ -91,7 +91,7 @@ level; receiver, Morse and beep audio are not changed. Normal sensitivity
 levels are announced briefly as `zero` through `twelve`; Richard's additional
 close-range attenuation and narrow-band zone below 00 is announced distinctly
 as `minus one` through `minus nine`.
-On `development`, SAM v0.4.3 is now the current V3/K1 artifact in
+On `main`, SAM v0.4.3 is now the current V3/K1 artifact in
 `online-flasher/`, replacing MorseVoice v0.3.5 as the default download.
 Functional testing was reported successful on 2026-10-08. On 2026-10-14 the
 user reported that the radio no longer transmits during operation; RF-output
