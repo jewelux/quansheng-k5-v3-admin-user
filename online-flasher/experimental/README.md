@@ -1,7 +1,8 @@
 # Experimental V3 Admin/User SAM build
 
-This directory is intentionally separate from the V3/K1 and V1 Morse/voice
-test artifacts. Nothing here replaces `v0.3.5-rxonly-test`.
+On `development`, SAM v0.4.3 is the current V3/K1 firmware in the parent
+`online-flasher/` directory. This copy is retained for existing links and the
+detailed test checklist. Previous MorseVoice v0.3.5 is in `../archive/`.
 
 Select only:
 
