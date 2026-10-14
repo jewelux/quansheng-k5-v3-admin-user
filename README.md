@@ -11,7 +11,10 @@ original UV-K5 V1 (DP32G030).
 - `development` is the test branch for ongoing development. Builds from this
   branch may be incomplete or not yet validated on the radio.
 
-Unless a test explicitly requires `development`, use `main`.
+For the current V3/K1 SAM development firmware, use **v0.4.3-rxonly-experimental**
+on `development`.
+
+[Flash current SAM v0.4.3 online](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin)
 
 The first development stage deliberately preserves Richard's complete menu and
 Richard's proven Morse accessibility path. It adds a protected user interface without
@@ -35,7 +38,8 @@ removing menu entries or audio code:
 
 ## Development status
 
-The current development artifact is `v0.3.5-rxonly-test`. It combines
+The previous development artifact was `v0.3.5-rxonly-test`, now in
+`online-flasher/archive/`. It combines
 multi-layer software TX prevention with Morse and Richard's stored voice-sample
 system. Menu voice playback now replaces an older asynchronous prompt safely
 and falls back to Morse if a stored sample cannot be loaded. Held `MENU` is
@@ -57,7 +61,7 @@ pending. SAM text-to-speech is a V3/K1 feature and is not present in V1.
 Earlier Admin/User images froze on the welcome screen because their combined
 author/version text exceeded the width assumed by Richard's unbounded small-text
 renderer and overwrote the framebuffer. Development builds therefore use the
-short on-screen identifiers: `DO9RE-LX1WJ` and `v0.35`. This keeps both
+short on-screen identifiers: `DO9RE-LX1WJ` and `v0.43` for current SAM. This keeps both
 contributors together on the first line without recreating the framebuffer
 overflow.
 
@@ -87,8 +91,13 @@ level; receiver, Morse and beep audio are not changed. Normal sensitivity
 levels are announced briefly as `zero` through `twelve`; Richard's additional
 close-range attenuation and narrow-band zone below 00 is announced distinctly
 as `minus one` through `minus nine`.
-It does not replace the V3 v0.3.5 Morse/voice-sample artifact. See
-`online-flasher/experimental/README.md` before testing.
+On `development`, SAM v0.4.3 is now the current V3/K1 artifact in
+`online-flasher/`, replacing MorseVoice v0.3.5 as the default download.
+Functional testing was reported successful on 2026-10-08. On 2026-10-14 the
+user reported that the radio no longer transmits during operation; RF-output
+measurement remains pending. The build retains its experimental status.
+See `online-flasher/README.md` for the current flash link and
+`online-flasher/experimental/README.md` for the detailed test checklist.
 
 ## Build V3 / K1
 
@@ -100,14 +109,14 @@ the target radio.
 
 ```sh
 cd firmware-v3
-cmake --preset AdminUser-Morse-RXOnly
-cmake --build --preset AdminUser-Morse-RXOnly
+cmake --preset AdminUser-SAM-RXOnly
+cmake --build --preset AdminUser-SAM-RXOnly
 ```
 
 Build output:
 
 ```text
-firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin
+firmware-v3/build/AdminUser-SAM-RXOnly/quansheng.AU_SAM_RX_K5v3_K1.bin
 ```
 
 ## Build V1

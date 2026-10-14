@@ -60,18 +60,29 @@ jobs:
           path: firmware-v3/build/AdminUser-Morse-RXOnly/quansheng.AU_RX_K5v3_K1.bin
           if-no-files-found: error
 
-      - name: Publish RX-only firmware as pre-release (development branch)
+      - name: Publish current V3 firmware as pre-release (development branch)
         if: github.event_name == 'push' && github.ref == 'refs/heads/development'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Select the first release heading whose version starts with a
-          # digit. Feature headings such as "V3/K1 ..." must not become tags.
-          VERSION="$(grep -m1 -E '^## [0-9]' CHANGELOG.md | awk '{print $2}')"
+          # The manifest identifies the current tracked download, independently
+          # of historical changelog headings or firmware families.
+          VERSION="$(python3 -c 'import json; print(json.load(open("online-flasher/manifest.json"))["firmware"]["version"])')"
           TAG="v${VERSION}"
-          FILE="Quansheng-K5V3-AdminUser-MorseVoice-v${VERSION}.bin"
+          FILE="$(python3 -c 'import json; print(json.load(open("online-flasher/manifest.json"))["firmware"]["file"])')"
           SOURCE="online-flasher/${FILE}"
           test -f "$SOURCE"
+          # Refuse to publish if the tracked binary differs from its manifest.
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          firmware = json.loads(Path("online-flasher/manifest.json").read_text())["firmware"]
+          data = (Path("online-flasher") / firmware["file"]).read_bytes()
+          assert len(data) == firmware["size"], "Firmware size differs from manifest"
+          assert hashlib.sha256(data).hexdigest().lower() == firmware["sha256"].lower(), "Firmware checksum differs from manifest"
+          PY
           cp "$SOURCE" "$FILE"
           sha256sum "$FILE" > "$FILE.sha256"
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
@@ -96,7 +107,7 @@ jobs:
               --target "$GITHUB_SHA" \
               --prerelease \
               --title "$TAG" \
-              --notes "Experimental test build from the pinned Arm GNU Toolchain 13.3.Rel1. Not yet hardware-tested. See CHANGELOG.md and docs/TEST-CHECKLIST.md."
+              --notes "Current experimental V3/K1 firmware from online-flasher/manifest.json, built with Arm GNU Toolchain 13.3.Rel1. Functional hardware testing reported successful; RF-output measurement remains pending. See CHANGELOG.md and online-flasher/README.md."
           fi
 
       - name: Build K5 V1 Admin/User RX-only firmware

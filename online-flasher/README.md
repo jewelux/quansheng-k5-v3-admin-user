@@ -1,76 +1,46 @@
-# UVTools2 online-flasher files
+# Current firmware on development
 
-## K5 V3 / K1: select exactly this file
+## K5 V3 / K1: SAM v0.4.3
 
-`Quansheng-K5V3-AdminUser-MorseVoice-v0.3.5-rxonly-test.bin`
+Current firmware: `Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin`
 
-It is a raw PY32F071 V3/K1 firmware image. Do **not** rename or convert it to a
-V1 `.packed.bin` image.
+[Open the online flasher](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin)
 
-Supported hardware:
+[Download the BIN file](https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-SAM-v0.4.3-rxonly-experimental.bin)
 
-- Quansheng UV-K5 V3 with PY32F071;
-- Quansheng UV-K1 with PY32F071.
+For UV-K5 V3 / UV-K1 with PY32F071 only. Never flash onto V1/DP32G030,
+V2/PY32F030 or GD32. This raw image is exactly 92904 bytes; its checksum is
+in `SHA256SUMS.txt`.
 
-It must not be flashed onto a V1/DP32G030, V2/PY32F030 or GD32 model.
+SAM v0.4.3 provides Morse, SAM and OFF, SAM volume control, protected normal
+startup, held-MENU administrator startup, sensitivity 0–12 and close-range
+attenuation minus 1–9. Stored voice samples are disabled.
 
-## K5 V1: select exactly this file
+Functional testing was reported successful on 2026-10-08. On 2026-10-14 the
+user reported that the radio no longer transmits during operation. RF-output
+measurement remains pending; this remains an experimental build.
+See `experimental/README.md` for the detailed test checklist.
+
+The previous V3 MorseVoice v0.3.5 image is retained in `archive/`.
+The identical SAM file under `experimental/` remains for existing links.
+`manifest.json` identifies the current V3/K1 development firmware.
+
+## K5 V1: MorseVoice v1.0.1
 
 `Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin`
 
-This is the packed DP32G030 image for the original Quansheng UV-K5 V1 only.
-Do **not** flash it onto a V3, K1, V2 or GD32 radio. Do not select the unpacked
-build-intermediate `.bin` from `firmware-v1/`; UVTools2 needs the file ending
-in `.packed.bin` from this directory.
+[Open the V1 online flasher](https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin)
 
-## Flash with UVTools2
+For the original UV-K5 V1 / DP32G030 only. V1 provides stored voice samples
+and Morse fallback, with no SAM. The smoke test passed on 2026-09-28;
+complete acoustic regression and RF-output measurements remain pending.
 
-1. Back up calibration data first.
-2. Open <https://armel.github.io/uvtools2/> in a Web Serial capable browser.
-3. Choose `Flash Firmware`.
-4. Select the exact hardware-specific file named above: raw `.bin` for V3/K1,
-   `.packed.bin` for V1.
-5. Verify its SHA-256 value against `SHA256SUMS.txt`.
-6. Connect the radio as instructed by UVTools2 and flash it.
+## Flashing
 
-After the prepared repository is published as
-`jewelux/quansheng-k5-v3-admin-user`, UVTools2 can preload the raw GitHub file:
+1. Back up calibration and EEPROM data.
+2. Open the link for your hardware in a Web Serial capable browser.
+3. Choose `Flash Firmware`, connect as instructed and flash.
 
-```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V3-AdminUser-MorseVoice-v0.3.5-rxonly-test.bin
-```
-
-V1 direct link:
-
-```text
-https://armel.github.io/uvtools2/?firmwareURL=https://raw.githubusercontent.com/jewelux/quansheng-k5-v3-admin-user/development/online-flasher/Quansheng-K5V1-AdminUser-MorseVoice-v1.0.1-rxonly-test.packed.bin
-```
-
-## Test warning
-
-These `-rxonly-test` images combine the protected normal-boot keys and the tested
-held-`MENU` administrator entry with multi-layer software TX prevention. On
-V3/K1, held `MENU` is the only administrator entry (`PTT` + `SIDE1` no longer
-opens it), and the user protection also applies when ARDF is switched off.
-The V3/K1 `Access` setting selects Morse or stored voice samples. On V1,
-available stored English prompts are spoken and entries without a matching
-sample fall back to Morse; V1 does not contain SAM text-to-speech. The ARDF
-PTT snapshot and compass actions remain
-compiled in because they run before the normal radio transmit path.
-
-The V3 image has been exercised on target hardware. V1 `1.0.1` passed an
-on-device smoke test on 2026-09-28: administrator startup and scrolling work,
-the battery-menu grey screen did not recur, stored English prompts were heard,
-and unmapped entries fell back to Morse. Complete acoustic regression and RF
-power measurements remain pending. Software TX prevention is not a hardware
-removal of the transmitter and is not a legal certification.
-
-V1 `1.0.1` also clamps imported or incompatible EEPROM menu values. This fixes
-the grey-screen crash seen when reverse-scrolling from `Step` into the battery
-service entries. The faulty V1 `1.0.0` image has been removed.
-
-The binary is the unchanged GitHub Actions build (Arm GNU Toolchain
-13.3.Rel1) from the `v0.3.5-rxonly-test` pre-release.
-
-`manifest.json` documents the artifact for humans and release automation;
-UVTools2 itself processes the `.bin` file.
+Manual downloads must use the direct BIN link or GitHub's raw download button.
+Saving the GitHub file-view page saves HTML instead of firmware.
+UVTools2 consumes the BIN file, not the manifest.
